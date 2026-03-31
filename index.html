@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ОфферДоктор — разбор УТП</title>
+  <meta name="description" content="ОфферДоктор тщательно разбирает предложение для клиентов и карточки товаров на маркетплейсах, находит слабые места и усиливает УТП." />
+  <style>
+    :root {
+      --bg: #f7f8fc;
+      --card: #ffffff;
+      --text: #172033;
+      --muted: #5b6474;
+      --accent: #315efb;
+      --accent-dark: #2149d9;
+      --line: #e6eaf2;
+      --success: #ecfdf3;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(180deg, #f7f8fc 0%, #eef3ff 100%);
+      color: var(--text);
+      line-height: 1.55;
+    }
+    .container {
+      width: min(1100px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+    header {
+      padding: 20px 0;
+    }
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .brand {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: .2px;
+    }
+    .brand span {
+      color: var(--accent);
+    }
+    .hero {
+      padding: 36px 0 24px;
+    }
+    .hero-wrap {
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 28px;
+      align-items: center;
+    }
+    .badge {
+      display: inline-block;
+      background: var(--success);
+      color: #177245;
+      border: 1px solid #c9efd8;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+    h1 {
+      margin: 0 0 14px;
+      font-size: clamp(32px, 5vw, 56px);
+      line-height: 1.05;
+    }
+    .lead {
+      font-size: 18px;
+      color: var(--muted);
+      max-width: 700px;
+      margin: 0 0 22px;
+    }
+    .cta-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+    .btn {
+      display: inline-block;
+      padding: 14px 18px;
+      border-radius: 14px;
+      text-decoration: none;
+      font-weight: 700;
+      transition: .2s ease;
+      border: 1px solid transparent;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+    }
+    .btn-primary:hover { background: var(--accent-dark); }
+    .btn-secondary {
+      background: white;
+      color: var(--text);
+      border-color: var(--line);
+    }
+    .hero-card, .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      box-shadow: 0 12px 40px rgba(31, 51, 103, 0.08);
+    }
+    .hero-card {
+      padding: 24px;
+    }
+    .hero-card h3 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      font-size: 20px;
+    }
+    .hero-card ul {
+      margin: 0;
+      padding-left: 20px;
+      color: var(--muted);
+    }
+    .hero-card li + li { margin-top: 10px; }
+    section {
+      padding: 22px 0;
+    }
+    .section-title {
+      font-size: 30px;
+      margin: 0 0 16px;
+    }
+    .section-text {
+      color: var(--muted);
+      max-width: 760px;
+      margin: 0 0 24px;
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+    .card {
+      padding: 22px;
+    }
+    .card h3 {
+      margin: 0 0 10px;
+      font-size: 20px;
+    }
+    .card p {
+      margin: 0;
+      color: var(--muted);
+    }
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    .step {
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 20px;
+    }
+    .step-number {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: #edf2ff;
+      color: var(--accent);
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .mini {
+      font-size: 14px;
+      color: var(--muted);
+    }
+    .faq {
+      display: grid;
+      gap: 12px;
+    }
+    .faq-item {
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 18px;
+    }
+    .faq-item strong {
+      display: block;
+      margin-bottom: 8px;
+    }
+    footer {
+      padding: 28px 0 42px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    @media (max-width: 900px) {
+      .hero-wrap, .grid-3, .steps { grid-template-columns: 1fr; }
+      h1 { font-size: 36px; }
+      .lead { font-size: 17px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container topbar">
+      <div class="brand">Оффер<span>Доктор</span></div>
+      <div class="mini">Разбор УТП для услуг, экспертов и карточек товаров</div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-wrap">
+        <div>
+          <div class="badge">Быстрый разбор предложения для клиентов</div>
+          <h1>Покажу, почему ваше предложение не цепляет клиентов</h1>
+          <p class="lead">ОфферДоктор тщательно разбирает предложение для клиентов и карточки товаров на маркетплейсах, находит неочевидные слабые места и помогает усилить УТП точными формулировками.</p>
+          <div class="cta-row">
+            <a class="btn btn-primary" href="#contact">Получить разбор</a>
+            <a class="btn btn-secondary" href="#how">Как это работает</a>
+          </div>
+          <div class="mini">Подходит для услуг, консультаций, обучения, товаров и карточек на маркетплейсах.</div>
+        </div>
+        <div class="hero-card">
+          <h3>Что вы получите</h3>
+          <ul>
+            <li>Быстрый диагноз: где предложение теряет клиента.</li>
+            <li>Понимание, что в формулировке неясно, слабо или слишком общее.</li>
+            <li>Новые варианты УТП, которые звучат точнее и сильнее.</li>
+            <li>Подсказку, что исправить в шапке, карточке, лендинге или тексте.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <h2 class="section-title">Что именно разбирает бот</h2>
+        <p class="section-text">Сервис подходит как для экспертов и услуг, так и для продавцов товаров. Его задача — не просто переписать текст, а усилить смысл, понятность и привлекательность предложения.</p>
+        <div class="grid-3">
+          <div class="card">
+            <h3>Услуги и эксперты</h3>
+            <p>Шапка профиля, описание услуг, приветственные сообщения, первые касания с клиентом, офферы для лендинга и рекламы.</p>
+          </div>
+          <div class="card">
+            <h3>Обучение и консультации</h3>
+            <p>Программы, консультационные продукты, мини-курсы, наставничество и персональные предложения.</p>
+          </div>
+          <div class="card">
+            <h3>Маркетплейсы и товары</h3>
+            <p>Карточки товаров, первые строки описания, выгоды, подача товара и снижение зависимости от одной только цены.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="how">
+      <div class="container">
+        <h2 class="section-title">Как это работает</h2>
+        <p class="section-text">Процесс короткий и понятный. Никакой сложной регистрации и длинных анкет.</p>
+        <div class="steps">
+          <div class="step">
+            <div class="step-number">1</div>
+            <strong>Вы пишете, что продаете</strong>
+            <div class="mini">Услугу, обучение, консультацию, товар или карточку на маркетплейсе.</div>
+          </div>
+          <div class="step">
+            <div class="step-number">2</div>
+            <strong>Показываете текущую формулировку</strong>
+            <div class="mini">Оффер, шапку, текст карточки, подпись или рекламный вариант.</div>
+          </div>
+          <div class="step">
+            <div class="step-number">3</div>
+            <strong>Получаете разбор слабых мест</strong>
+            <div class="mini">Что непонятно клиенту, что не бьет в цель и что мешает продажам.</div>
+          </div>
+          <div class="step">
+            <div class="step-number">4</div>
+            <strong>Берете новые формулировки</strong>
+            <div class="mini">Сильнее, понятнее, конкретнее и ближе к вашей аудитории.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <h2 class="section-title">Для кого это полезно</h2>
+        <div class="grid-3">
+          <div class="card">
+            <h3>Предпринимателям</h3>
+            <p>Когда есть продукт, но клиенты не сразу понимают, почему должны выбрать именно вас.</p>
+          </div>
+          <div class="card">
+            <h3>Экспертам</h3>
+            <p>Когда сложно коротко и сильно объяснить свою ценность, не скатываясь в общие слова.</p>
+          </div>
+          <div class="card">
+            <h3>Селлерам</h3>
+            <p>Когда карточка товара собирает просмотры, но проигрывает по смыслу, выгоде и подаче.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <h2 class="section-title">Частые вопросы</h2>
+        <div class="faq">
+          <div class="faq-item">
+            <strong>Это только для услуг?</strong>
+            <div class="mini">Нет. Разбор подходит и для товаров, и для карточек на маркетплейсах.</div>
+          </div>
+          <div class="faq-item">
+            <strong>Нужен ли готовый сайт?</strong>
+            <div class="mini">Нет. Достаточно текста, шапки профиля, описания услуги, карточки товара или любого текущего варианта предложения.</div>
+          </div>
+          <div class="faq-item">
+            <strong>Можно ли прислать ссылку на проект?</strong>
+            <div class="mini">Да. Если у вас есть сайт, профиль, лендинг или карточка товара, это поможет сделать разбор точнее.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="container">
+        <div class="contact-card">
+          <div class="section-head" style="margin-bottom: 0;">
+            <h2>Контакты и реквизиты</h2>
+            <p>
+              Этот сайт можно использовать как стартовый лендинг для размещения ссылки в MAX.
+              Когда бот будет готов, сюда можно добавить кнопку перехода в бот,
+              Telegram, форму заявки или контакты для обратной связи.
+            </p>
+          </div>
+
+          <div class="hero-actions" style="margin-top: 18px; margin-bottom: 0;">
+            <a href="#" class="btn btn-primary">Ссылка на бота MAX</a>
+            <a href="tel:+79629349575" class="btn btn-secondary">Позвонить</a>
+          </div>
+
+          <div class="contact-boxes">
+            <div class="contact-box">
+              <strong>Формат работы</strong>
+              <span>Быстрый разбор предложения, УТП и карточек товаров.</span>
+            </div>
+            <div class="contact-box">
+              <strong>Телефон</strong>
+              <span>+7 962 934 95 75</span>
+            </div>
+            <div class="contact-box">
+              <strong>Адрес</strong>
+              <span>107589, Москва, Красноярская 1 355</span>
+            </div>
+          </div>
+
+          <div class="contact-boxes" style="margin-top: 16px;">
+            <div class="contact-box">
+              <strong>ИП</strong>
+              <span>ИП Бояринцев Е.А.</span>
+            </div>
+            <div class="contact-box">
+              <strong>ИНН</strong>
+              <span>771812324702</span>
+            </div>
+            <div class="contact-box">
+              <strong>ОГРНИП</strong>
+              <span>325774600008835</span>
+            </div>
+          </div>
+
+          <div class="contact-boxes" style="margin-top: 16px;">
+            <div class="contact-box">
+              <strong>Банк</strong>
+              <span>ООО «Банк Точка»</span>
+            </div>
+            <div class="contact-box">
+              <strong>Расчетный счет</strong>
+              <span>40802810420000529109</span>
+            </div>
+            <div class="contact-box">
+              <strong>БИК</strong>
+              <span>044525104</span>
+            </div>
+          </div>
+
+          <div class="contact-boxes" style="margin-top: 16px;">
+            <div class="contact-box">
+              <strong>Корреспондентский счет</strong>
+              <span>30101810745374525104</span>
+            </div>
+            <div class="contact-box">
+              <strong>Руководитель</strong>
+              <span>Бояринцев Евгений Анатольевич</span>
+            </div>
+            <div class="contact-box">
+              <strong>Сайт сейчас нужен для MAX</strong>
+              <span>После запуска сюда можно поставить прямую ссылку на бота.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      ОфферДоктор Разбор УТП · ИП Бояринцев Е.А. · ИНН 771812324702 · ОГРНИП 325774600008835
+    </div>
+  </footer>
+</body>
+</html>
