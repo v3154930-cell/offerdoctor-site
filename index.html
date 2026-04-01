@@ -3,386 +3,1396 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ОфферДоктор — разбор УТП</title>
-  <meta name="description" content="ОфферДоктор тщательно разбирает предложение для клиентов и карточки товаров на маркетплейсах, находит слабые места и усиливает УТП." />
+  <title>ОфферДоктор — аудит карточек, Avito и лендингов</title>
+  <meta
+    name="description"
+    content="ОфферДоктор — сервис быстрого аудита карточек товаров, объявлений Avito и лендингов. Базовый аудит бесплатно, расширенный — по фиксированным тарифам."
+  />
   <style>
     :root {
-      --bg: #f7f8fc;
-      --card: #ffffff;
-      --text: #172033;
-      --muted: #5b6474;
-      --accent: #315efb;
-      --accent-dark: #2149d9;
-      --line: #e6eaf2;
-      --success: #ecfdf3;
+      --bg: #f4f7fb;
+      --bg-deep: #eaf0f8;
+      --surface: rgba(255, 255, 255, 0.76);
+      --surface-strong: rgba(255, 255, 255, 0.9);
+      --surface-dark: rgba(11, 27, 46, 0.84);
+      --border: rgba(120, 145, 174, 0.2);
+      --text: #10233d;
+      --muted: #5d7088;
+      --primary: #19bdd0;
+      --primary-2: #4f6dff;
+      --accent: #64f0ff;
+      --success: #19b99a;
+      --shadow: 0 24px 60px rgba(18, 38, 63, 0.12);
+      --shadow-soft: 0 18px 48px rgba(21, 40, 73, 0.09);
+      --radius-xl: 34px;
+      --radius-lg: 26px;
+      --radius-md: 20px;
+      --radius-sm: 16px;
+      --max: 1420px;
     }
-    * { box-sizing: border-box; }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: linear-gradient(180deg, #f7f8fc 0%, #eef3ff 100%);
+      font-family: Inter, Arial, Helvetica, sans-serif;
       color: var(--text);
-      line-height: 1.55;
+      background:
+        radial-gradient(circle at 8% 16%, rgba(103, 218, 255, 0.22), transparent 0 24%),
+        radial-gradient(circle at 92% 14%, rgba(72, 108, 255, 0.15), transparent 0 22%),
+        radial-gradient(circle at 84% 78%, rgba(27, 209, 219, 0.16), transparent 0 20%),
+        radial-gradient(circle at 14% 86%, rgba(115, 175, 255, 0.12), transparent 0 18%),
+        linear-gradient(180deg, #f8fbff 0%, #edf3fa 52%, #eef4fb 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
     }
-    .container {
-      width: min(1100px, calc(100% - 32px));
-      margin: 0 auto;
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      inset: auto;
+      pointer-events: none;
+      z-index: 0;
+      filter: blur(36px);
+      opacity: 0.7;
     }
-    header {
-      padding: 20px 0;
+
+    body::before {
+      width: 540px;
+      height: 540px;
+      right: -140px;
+      top: 110px;
+      background: radial-gradient(circle, rgba(56, 176, 255, 0.2) 0%, rgba(56, 176, 255, 0.06) 38%, transparent 70%);
     }
-    .topbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 16px;
-      flex-wrap: wrap;
+
+    body::after {
+      width: 620px;
+      height: 620px;
+      left: -180px;
+      bottom: -90px;
+      background: radial-gradient(circle, rgba(28, 220, 214, 0.14) 0%, rgba(28, 220, 214, 0.05) 40%, transparent 70%);
     }
-    .brand {
-      font-size: 22px;
-      font-weight: 700;
-      letter-spacing: .2px;
-    }
-    .brand span {
-      color: var(--accent);
-    }
-    .hero {
-      padding: 36px 0 24px;
-    }
-    .hero-wrap {
-      display: grid;
-      grid-template-columns: 1.2fr .8fr;
-      gap: 28px;
-      align-items: center;
-    }
-    .badge {
-      display: inline-block;
-      background: var(--success);
-      color: #177245;
-      border: 1px solid #c9efd8;
-      padding: 8px 12px;
-      border-radius: 999px;
-      font-size: 14px;
-      margin-bottom: 16px;
-    }
-    h1 {
-      margin: 0 0 14px;
-      font-size: clamp(32px, 5vw, 56px);
-      line-height: 1.05;
-    }
-    .lead {
-      font-size: 18px;
-      color: var(--muted);
-      max-width: 700px;
-      margin: 0 0 22px;
-    }
-    .cta-row {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-bottom: 16px;
-    }
-    .btn {
-      display: inline-block;
-      padding: 14px 18px;
-      border-radius: 14px;
+
+    a {
+      color: inherit;
       text-decoration: none;
-      font-weight: 700;
-      transition: .2s ease;
-      border: 1px solid transparent;
     }
-    .btn-primary {
-      background: var(--accent);
-      color: white;
+
+    .page {
+      position: relative;
+      z-index: 1;
+      width: min(calc(100% - 32px), var(--max));
+      margin: 0 auto;
+      padding: 24px 0 36px;
     }
-    .btn-primary:hover { background: var(--accent-dark); }
-    .btn-secondary {
-      background: white;
-      color: var(--text);
-      border-color: var(--line);
+
+    .topbar {
+      position: sticky;
+      top: 18px;
+      z-index: 30;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 16px 20px;
+      margin-bottom: 24px;
+      background: rgba(255, 255, 255, 0.62);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(18px);
+      border-radius: 22px;
+      box-shadow: 0 12px 34px rgba(17, 36, 67, 0.08);
     }
-    .hero-card, .card {
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: 24px;
-      box-shadow: 0 12px 40px rgba(31, 51, 103, 0.08);
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 0;
     }
-    .hero-card {
-      padding: 24px;
+
+    .logo {
+      position: relative;
+      width: 54px;
+      height: 54px;
+      flex: 0 0 54px;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      background:
+        radial-gradient(circle at 50% 22%, rgba(255,255,255,0.95), rgba(255,255,255,0.08) 46%, transparent 62%),
+        linear-gradient(145deg, rgba(26, 196, 228, 0.96), rgba(62, 109, 255, 0.95));
+      box-shadow:
+        0 18px 40px rgba(47, 120, 255, 0.22),
+        inset 0 1px 0 rgba(255,255,255,0.55);
     }
-    .hero-card h3 {
-      margin-top: 0;
-      margin-bottom: 10px;
-      font-size: 20px;
+
+    .logo::before {
+      content: "";
+      position: absolute;
+      inset: 8px;
+      border-radius: 14px;
+      border: 2px solid rgba(255,255,255,0.78);
+      opacity: 0.82;
     }
-    .hero-card ul {
-      margin: 0;
-      padding-left: 20px;
+
+    .logo span {
+      position: relative;
+      z-index: 1;
+      font-size: 22px;
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: 0.02em;
+    }
+
+    .brand-text {
+      min-width: 0;
+    }
+
+    .brand-title {
+      font-size: 22px;
+      font-weight: 800;
+      line-height: 1.05;
+      color: #102742;
+    }
+
+    .brand-subtitle {
+      margin-top: 4px;
       color: var(--muted);
+      font-size: 13px;
+      line-height: 1.35;
     }
-    .hero-card li + li { margin-top: 10px; }
-    section {
-      padding: 22px 0;
+
+    .topnav {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
     }
-    .section-title {
-      font-size: 30px;
-      margin: 0 0 16px;
+
+    .topnav a {
+      padding: 11px 16px;
+      border-radius: 14px;
+      color: #22405d;
+      font-size: 14px;
+      font-weight: 600;
+      transition: 0.25s ease;
     }
-    .section-text {
-      color: var(--muted);
+
+    .topnav a:hover {
+      background: rgba(26, 190, 208, 0.1);
+      color: #0f2742;
+    }
+
+    .topnav .nav-cta {
+      background: linear-gradient(135deg, var(--primary), var(--primary-2));
+      color: #fff;
+      box-shadow: 0 14px 34px rgba(42, 113, 255, 0.22);
+    }
+
+    .topnav .nav-cta:hover {
+      color: #fff;
+      transform: translateY(-1px);
+      box-shadow: 0 16px 36px rgba(42, 113, 255, 0.28);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 24px;
+      align-items: stretch;
+      margin-bottom: 28px;
+    }
+
+    .hero-left,
+    .hero-right,
+    .section-card,
+    .footer-card {
+      background: var(--surface);
+      border: 1px solid rgba(255, 255, 255, 0.72);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+      border-radius: var(--radius-xl);
+    }
+
+    .hero-left {
+      position: relative;
+      padding: 34px 34px 28px;
+      overflow: hidden;
+      min-height: 660px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .hero-left::before {
+      content: "";
+      position: absolute;
+      width: 520px;
+      height: 520px;
+      right: -160px;
+      top: -170px;
+      background: radial-gradient(circle, rgba(103, 243, 255, 0.28) 0%, rgba(103, 243, 255, 0.08) 34%, transparent 70%);
+      filter: blur(10px);
+    }
+
+    .hero-left::after {
+      content: "";
+      position: absolute;
+      left: -120px;
+      bottom: -160px;
+      width: 560px;
+      height: 560px;
+      background: radial-gradient(circle, rgba(74, 109, 255, 0.14) 0%, rgba(74, 109, 255, 0.04) 36%, transparent 68%);
+    }
+
+    .hero-head {
+      position: relative;
+      z-index: 1;
       max-width: 760px;
-      margin: 0 0 24px;
     }
-    .grid-3 {
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(120, 145, 174, 0.18);
+      color: #21415d;
+      font-size: 13px;
+      font-weight: 700;
+      box-shadow: var(--shadow-soft);
+      margin-bottom: 22px;
+    }
+
+    .badge-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--accent), var(--primary-2));
+      box-shadow: 0 0 0 8px rgba(83, 195, 255, 0.12);
+      flex: 0 0 10px;
+    }
+
+    .hero-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .hero-logo-mark {
+      position: relative;
+      width: 82px;
+      height: 82px;
+      border-radius: 24px;
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
+      place-items: center;
+      background:
+        radial-gradient(circle at 50% 20%, rgba(255,255,255,0.95), rgba(255,255,255,0.05) 44%, transparent 62%),
+        linear-gradient(145deg, rgba(26, 196, 228, 1), rgba(62, 109, 255, 1));
+      box-shadow:
+        0 24px 54px rgba(53, 123, 255, 0.24),
+        0 0 0 10px rgba(102, 222, 255, 0.1);
     }
-    .card {
-      padding: 22px;
+
+    .hero-logo-mark::before {
+      content: "";
+      position: absolute;
+      inset: 10px;
+      border-radius: 18px;
+      border: 2px solid rgba(255,255,255,0.82);
     }
-    .card h3 {
-      margin: 0 0 10px;
-      font-size: 20px;
+
+    .hero-logo-mark span {
+      position: relative;
+      z-index: 1;
+      font-size: 34px;
+      font-weight: 900;
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
     }
-    .card p {
+
+    h1 {
       margin: 0;
+      font-size: clamp(42px, 6vw, 78px);
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+      font-weight: 900;
+      color: #0d2742;
+    }
+
+    .hero-text {
+      max-width: 720px;
+      margin: 18px 0 0;
+      font-size: 18px;
+      line-height: 1.7;
       color: var(--muted);
     }
-    .steps {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
+
+    .hero-text strong {
+      color: #16314d;
     }
-    .step {
-      background: white;
-      border: 1px solid var(--line);
-      border-radius: 20px;
-      padding: 20px;
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 26px;
     }
-    .step-number {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
+
+    .btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      background: #edf2ff;
-      color: var(--accent);
+      gap: 10px;
+      border: 0;
+      cursor: pointer;
+      border-radius: 18px;
+      padding: 16px 22px;
+      font-size: 15px;
       font-weight: 700;
-      margin-bottom: 12px;
+      transition: 0.25s ease;
+      text-decoration: none;
     }
-    .mini {
-      font-size: 14px;
+
+    .btn-primary {
+      color: #fff;
+      background: linear-gradient(135deg, var(--primary), var(--primary-2));
+      box-shadow: 0 18px 36px rgba(53, 123, 255, 0.26);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 22px 42px rgba(53, 123, 255, 0.32);
+    }
+
+    .btn-secondary {
+      color: #14324d;
+      background: rgba(255,255,255,0.82);
+      border: 1px solid rgba(120, 145, 174, 0.2);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255,255,255,0.95);
+    }
+
+    .scenario-grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 34px;
+    }
+
+    .scenario-card {
+      position: relative;
+      padding: 22px 18px 18px;
+      border-radius: 24px;
+      background: rgba(255,255,255,0.88);
+      border: 1px solid rgba(126, 151, 182, 0.18);
+      box-shadow: 0 18px 42px rgba(20, 42, 70, 0.1);
+      overflow: hidden;
+      min-height: 224px;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .scenario-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 24px 52px rgba(20, 42, 70, 0.14);
+    }
+
+    .scenario-card::before {
+      content: "";
+      position: absolute;
+      inset: auto -30px -40px auto;
+      width: 160px;
+      height: 160px;
+      border-radius: 999px;
+      background: radial-gradient(circle, rgba(93, 211, 255, 0.18), transparent 68%);
+      pointer-events: none;
+    }
+
+    .scenario-icon {
+      width: 68px;
+      height: 68px;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 18px;
+      background: linear-gradient(145deg, rgba(255,255,255,0.98), rgba(233, 243, 251, 0.9));
+      border: 1px solid rgba(121, 145, 176, 0.16);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.72);
+    }
+
+    .scenario-card h3 {
+      margin: 0 0 10px;
+      font-size: 26px;
+      line-height: 1.1;
+      font-weight: 800;
+      color: #10233d;
+    }
+
+    .scenario-card p {
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.6;
       color: var(--muted);
     }
-    .faq {
+
+    .hero-right {
+      position: relative;
+      padding: 28px;
+      overflow: hidden;
+      min-height: 660px;
+      background:
+        radial-gradient(circle at 20% 0%, rgba(73, 188, 255, 0.2), transparent 0 26%),
+        linear-gradient(160deg, rgba(11, 26, 44, 0.96), rgba(18, 39, 67, 0.94));
+      color: #e9f7ff;
+    }
+
+    .hero-right::before {
+      content: "";
+      position: absolute;
+      width: 540px;
+      height: 540px;
+      right: -180px;
+      top: -120px;
+      background: radial-gradient(circle, rgba(81, 204, 255, 0.18) 0%, rgba(81, 204, 255, 0.06) 34%, transparent 70%);
+      filter: blur(14px);
+    }
+
+    .hero-right::after {
+      content: "";
+      position: absolute;
+      left: -130px;
+      bottom: -180px;
+      width: 480px;
+      height: 480px;
+      background: radial-gradient(circle, rgba(49, 113, 255, 0.18) 0%, transparent 72%);
+      filter: blur(18px);
+    }
+
+    .hero-right-inner {
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 22px;
+    }
+
+    .panel-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      width: fit-content;
+      padding: 10px 14px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(158, 212, 255, 0.14);
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #bfeeff;
+    }
+
+    .panel-orb {
+      position: relative;
+      margin: 8px auto 0;
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background:
+        radial-gradient(circle at 50% 36%, rgba(255,255,255,0.9), rgba(255,255,255,0.08) 42%, transparent 68%),
+        radial-gradient(circle at 50% 50%, rgba(92, 211, 255, 0.28), rgba(92, 211, 255, 0.06) 48%, transparent 72%),
+        linear-gradient(145deg, rgba(23, 177, 214, 0.95), rgba(61, 110, 255, 0.95));
+      box-shadow:
+        0 34px 80px rgba(34, 130, 255, 0.28),
+        0 0 0 18px rgba(70, 204, 255, 0.05);
+    }
+
+    .panel-orb::before {
+      content: "";
+      position: absolute;
+      inset: -16px;
+      border-radius: 50%;
+      border: 1px solid rgba(153, 229, 255, 0.12);
+    }
+
+    .panel-orb::after {
+      content: "";
+      position: absolute;
+      inset: 18px;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.62);
+    }
+
+    .panel-orb span {
+      position: relative;
+      z-index: 1;
+      font-size: 76px;
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      color: #fff;
+      text-transform: uppercase;
+      text-shadow: 0 8px 30px rgba(20, 75, 161, 0.25);
+    }
+
+    .panel-title {
+      margin: 0;
+      text-align: center;
+      font-size: 34px;
+      line-height: 1.12;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+    }
+
+    .panel-subtitle {
+      max-width: 420px;
+      margin: 0 auto;
+      text-align: center;
+      color: rgba(233, 247, 255, 0.72);
+      font-size: 15px;
+      line-height: 1.65;
+    }
+
+    .feature-stack {
+      display: grid;
+      gap: 14px;
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px 18px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(157, 216, 255, 0.1);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
+    }
+
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(145deg, rgba(255,255,255,0.12), rgba(255,255,255,0.05));
+      border: 1px solid rgba(170, 227, 255, 0.12);
+      flex: 0 0 48px;
+    }
+
+    .feature-item strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 15px;
+      color: #f4fbff;
+    }
+
+    .feature-item span {
+      display: block;
+      font-size: 13px;
+      line-height: 1.5;
+      color: rgba(233, 247, 255, 0.68);
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+
+    .section-card {
+      padding: 32px;
+      overflow: hidden;
+    }
+
+    .section-eyebrow {
+      margin: 0 0 12px;
+      color: #2b84c9;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .section-title {
+      margin: 0;
+      font-size: clamp(28px, 4vw, 42px);
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      font-weight: 900;
+      color: #10233d;
+    }
+
+    .section-description {
+      max-width: 820px;
+      margin: 16px 0 0;
+      font-size: 16px;
+      line-height: 1.75;
+      color: var(--muted);
+    }
+
+    .audit-compare {
+      margin-top: 26px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .audit-box {
+      padding: 20px;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.82);
+      border: 1px solid rgba(120, 145, 174, 0.18);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .audit-box h3 {
+      margin: 0 0 12px;
+      font-size: 20px;
+      line-height: 1.2;
+    }
+
+    .audit-box ul {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+      line-height: 1.72;
+      font-size: 15px;
+    }
+
+    .audit-box--free {
+      background: linear-gradient(180deg, rgba(255,255,255,0.88), rgba(242, 249, 255, 0.88));
+    }
+
+    .audit-box--paid {
+      background: linear-gradient(180deg, rgba(15, 32, 54, 0.98), rgba(18, 40, 68, 0.96));
+      color: #edf8ff;
+      border-color: rgba(112, 203, 255, 0.12);
+      box-shadow: 0 26px 52px rgba(17, 38, 67, 0.18);
+    }
+
+    .audit-box--paid ul {
+      color: rgba(237, 248, 255, 0.76);
+    }
+
+    .pricing-grid {
+      margin-top: 28px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .pricing-card {
+      position: relative;
+      padding: 24px;
+      border-radius: 28px;
+      background: rgba(255,255,255,0.88);
+      border: 1px solid rgba(120, 145, 174, 0.18);
+      box-shadow: var(--shadow-soft);
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+      overflow: hidden;
+    }
+
+    .pricing-card.featured {
+      background: linear-gradient(180deg, rgba(11, 27, 46, 0.97), rgba(18, 39, 67, 0.96));
+      color: #eefaff;
+      border-color: rgba(112, 203, 255, 0.12);
+      box-shadow: 0 28px 58px rgba(20, 40, 73, 0.2);
+    }
+
+    .pricing-tag {
+      display: inline-flex;
+      align-items: center;
+      width: fit-content;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(24, 190, 207, 0.12);
+      color: #1786bf;
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 16px;
+    }
+
+    .pricing-card.featured .pricing-tag {
+      background: rgba(112, 203, 255, 0.12);
+      color: #8ee9ff;
+    }
+
+    .pricing-card h3 {
+      margin: 0 0 8px;
+      font-size: 26px;
+      line-height: 1.15;
+      font-weight: 900;
+    }
+
+    .pricing-card p {
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.65;
+    }
+
+    .pricing-card.featured p {
+      color: rgba(238, 250, 255, 0.74);
+    }
+
+    .price-line {
+      display: flex;
+      align-items: flex-end;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .price {
+      font-size: 42px;
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+    }
+
+    .price-note {
+      font-size: 14px;
+      color: var(--muted);
+      font-weight: 700;
+      padding-bottom: 4px;
+    }
+
+    .pricing-card.featured .price-note {
+      color: rgba(238, 250, 255, 0.68);
+    }
+
+    .pricing-list {
+      margin: 0 0 24px;
+      padding: 0;
+      list-style: none;
       display: grid;
       gap: 12px;
+      color: #20405c;
     }
-    .faq-item {
-      background: white;
-      border: 1px solid var(--line);
-      border-radius: 18px;
+
+    .pricing-card.featured .pricing-list {
+      color: rgba(238, 250, 255, 0.9);
+    }
+
+    .pricing-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .pricing-list li::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      flex: 0 0 8px;
+      border-radius: 999px;
+      margin-top: 9px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-2));
+      box-shadow: 0 0 0 6px rgba(93, 211, 255, 0.12);
+    }
+
+    .pricing-card .btn {
+      margin-top: auto;
+    }
+
+    .steps {
+      margin-top: 26px;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .step-card {
+      padding: 22px 18px;
+      border-radius: 24px;
+      background: rgba(255,255,255,0.84);
+      border: 1px solid rgba(120, 145, 174, 0.18);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .step-number {
+      width: 40px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      margin-bottom: 14px;
+      font-size: 15px;
+      font-weight: 900;
+      color: #fff;
+      background: linear-gradient(135deg, var(--primary), var(--primary-2));
+      box-shadow: 0 12px 28px rgba(57, 125, 255, 0.22);
+    }
+
+    .step-card h3 {
+      margin: 0 0 10px;
+      font-size: 20px;
+      line-height: 1.2;
+    }
+
+    .step-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.68;
+    }
+
+    .footer-card {
+      padding: 28px 30px;
+      margin-top: 24px;
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(255,255,255,0.75);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .footer-top {
+      display: flex;
+      gap: 22px;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 22px;
+      flex-wrap: wrap;
+    }
+
+    .footer-note {
+      max-width: 680px;
+      font-size: 14px;
+      line-height: 1.75;
+      color: var(--muted);
+    }
+
+    .requisites {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 12px;
+    }
+
+    .req-item {
       padding: 18px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.84);
+      border: 1px solid rgba(120, 145, 174, 0.16);
+      box-shadow: 0 14px 28px rgba(21, 40, 73, 0.06);
     }
-    .faq-item strong {
+
+    .req-item span {
       display: block;
+      font-size: 12px;
+      font-weight: 800;
+      color: #6d82a0;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
       margin-bottom: 8px;
     }
-    footer {
-      padding: 28px 0 42px;
-      color: var(--muted);
-      font-size: 14px;
+
+    .req-item strong {
+      display: block;
+      font-size: 15px;
+      line-height: 1.55;
+      color: #15324f;
+      word-break: break-word;
     }
-    @media (max-width: 900px) {
-      .hero-wrap, .grid-3, .steps { grid-template-columns: 1fr; }
-      h1 { font-size: 36px; }
-      .lead { font-size: 17px; }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      margin-top: 18px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(120, 145, 174, 0.14);
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+      flex-wrap: wrap;
+    }
+
+    svg {
+      display: block;
+    }
+
+    @media (max-width: 1180px) {
+      .hero,
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-left,
+      .hero-right {
+        min-height: auto;
+      }
+
+      .pricing-grid,
+      .steps,
+      .requisites {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 820px) {
+      .page {
+        width: min(calc(100% - 20px), var(--max));
+        padding-top: 14px;
+      }
+
+      .topbar {
+        top: 10px;
+        padding: 14px 16px;
+      }
+
+      .topnav {
+        width: 100%;
+        justify-content: flex-start;
+      }
+
+      .hero-left,
+      .hero-right,
+      .section-card,
+      .footer-card {
+        border-radius: 26px;
+      }
+
+      .hero-left,
+      .hero-right,
+      .section-card {
+        padding: 22px;
+      }
+
+      .hero-logo-mark {
+        width: 72px;
+        height: 72px;
+      }
+
+      .hero-logo-mark span {
+        font-size: 30px;
+      }
+
+      .scenario-grid,
+      .pricing-grid,
+      .steps,
+      .audit-compare,
+      .requisites {
+        grid-template-columns: 1fr;
+      }
+
+      .scenario-card {
+        min-height: auto;
+      }
+
+      .panel-orb {
+        width: 220px;
+        height: 220px;
+      }
+
+      .panel-orb span {
+        font-size: 58px;
+      }
+
+      .footer-top,
+      .footer-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .brand-title {
+        font-size: 18px;
+      }
+
+      .brand-subtitle {
+        font-size: 12px;
+      }
+
+      .logo {
+        width: 48px;
+        height: 48px;
+        flex-basis: 48px;
+      }
+
+      .topnav a {
+        width: 100%;
+        text-align: center;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .hero-text {
+        font-size: 16px;
+      }
+
+      .price {
+        font-size: 36px;
+      }
     }
   </style>
 </head>
 <body>
-  <header>
-    <div class="container topbar">
-      <div class="brand">Оффер<span>Доктор</span></div>
-      <div class="mini">Разбор УТП для услуг, экспертов и карточек товаров</div>
-    </div>
-  </header>
-
-  <main>
-    <section class="hero">
-      <div class="container hero-wrap">
-        <div>
-          <div class="badge">Быстрый разбор предложения для клиентов</div>
-          <h1>Покажу, почему ваше предложение не цепляет клиентов</h1>
-          <p class="lead">ОфферДоктор тщательно разбирает предложение для клиентов и карточки товаров на маркетплейсах, находит неочевидные слабые места и помогает усилить УТП точными формулировками.</p>
-          <div class="cta-row">
-            <a class="btn btn-primary" href="#contact">Получить разбор</a>
-            <a class="btn btn-secondary" href="#how">Как это работает</a>
-          </div>
-          <div class="mini">Подходит для услуг, консультаций, обучения, товаров и карточек на маркетплейсах.</div>
+  <div class="page">
+    <header class="topbar">
+      <a href="#top" class="brand">
+        <div class="logo"><span>Ai</span></div>
+        <div class="brand-text">
+          <div class="brand-title">ОфферДоктор</div>
+          <div class="brand-subtitle">Аудит карточек товаров, Avito и лендингов</div>
         </div>
-        <div class="hero-card">
-          <h3>Что вы получите</h3>
-          <ul>
-            <li>Быстрый диагноз: где предложение теряет клиента.</li>
-            <li>Понимание, что в формулировке неясно, слабо или слишком общее.</li>
-            <li>Новые варианты УТП, которые звучат точнее и сильнее.</li>
-            <li>Подсказку, что исправить в шапке, карточке, лендинге или тексте.</li>
-          </ul>
-        </div>
-      </div>
-    </section>
+      </a>
 
-    <section>
-      <div class="container">
-        <h2 class="section-title">Что именно разбирает бот</h2>
-        <p class="section-text">Сервис подходит как для экспертов и услуг, так и для продавцов товаров. Его задача — не просто переписать текст, а усилить смысл, понятность и привлекательность предложения.</p>
-        <div class="grid-3">
-          <div class="card">
-            <h3>Услуги и эксперты</h3>
-            <p>Шапка профиля, описание услуг, приветственные сообщения, первые касания с клиентом, офферы для лендинга и рекламы.</p>
-          </div>
-          <div class="card">
-            <h3>Обучение и консультации</h3>
-            <p>Программы, консультационные продукты, мини-курсы, наставничество и персональные предложения.</p>
-          </div>
-          <div class="card">
-            <h3>Маркетплейсы и товары</h3>
-            <p>Карточки товаров, первые строки описания, выгоды, подача товара и снижение зависимости от одной только цены.</p>
-          </div>
-        </div>
-      </div>
-    </section>
+      <nav class="topnav">
+        <a href="#formats">Форматы</a>
+        <a href="#prices">Тарифы</a>
+        <a href="#process">Как это работает</a>
+        <a href="#requisites">Реквизиты</a>
+        <a href="#start" class="nav-cta">Открыть mini app</a>
+      </nav>
+    </header>
 
-    <section id="how">
-      <div class="container">
-        <h2 class="section-title">Как это работает</h2>
-        <p class="section-text">Процесс короткий и понятный. Никакой сложной регистрации и длинных анкет.</p>
-        <div class="steps">
-          <div class="step">
-            <div class="step-number">1</div>
-            <strong>Вы пишете, что продаете</strong>
-            <div class="mini">Услугу, обучение, консультацию, товар или карточку на маркетплейсе.</div>
-          </div>
-          <div class="step">
-            <div class="step-number">2</div>
-            <strong>Показываете текущую формулировку</strong>
-            <div class="mini">Оффер, шапку, текст карточки, подпись или рекламный вариант.</div>
-          </div>
-          <div class="step">
-            <div class="step-number">3</div>
-            <strong>Получаете разбор слабых мест</strong>
-            <div class="mini">Что непонятно клиенту, что не бьет в цель и что мешает продажам.</div>
-          </div>
-          <div class="step">
-            <div class="step-number">4</div>
-            <strong>Берете новые формулировки</strong>
-            <div class="mini">Сильнее, понятнее, конкретнее и ближе к вашей аудитории.</div>
-          </div>
-        </div>
-      </div>
-    </section>
+    <main>
+      <section class="hero" id="top">
+        <div class="hero-left">
+          <div class="hero-head">
+            <div class="badge">
+              <span class="badge-dot"></span>
+              Базовый аудит — бесплатно • Расширенный — по фиксированным тарифам
+            </div>
 
-    <section>
-      <div class="container">
-        <h2 class="section-title">Для кого это полезно</h2>
-        <div class="grid-3">
-          <div class="card">
-            <h3>Предпринимателям</h3>
-            <p>Когда есть продукт, но клиенты не сразу понимают, почему должны выбрать именно вас.</p>
-          </div>
-          <div class="card">
-            <h3>Экспертам</h3>
-            <p>Когда сложно коротко и сильно объяснить свою ценность, не скатываясь в общие слова.</p>
-          </div>
-          <div class="card">
-            <h3>Селлерам</h3>
-            <p>Когда карточка товара собирает просмотры, но проигрывает по смыслу, выгоде и подаче.</p>
-          </div>
-        </div>
-      </div>
-    </section>
+            <div class="hero-logo">
+              <div class="hero-logo-mark"><span>Ai</span></div>
+            </div>
 
-    <section>
-      <div class="container">
-        <h2 class="section-title">Частые вопросы</h2>
-        <div class="faq">
-          <div class="faq-item">
-            <strong>Это только для услуг?</strong>
-            <div class="mini">Нет. Разбор подходит и для товаров, и для карточек на маркетплейсах.</div>
-          </div>
-          <div class="faq-item">
-            <strong>Нужен ли готовый сайт?</strong>
-            <div class="mini">Нет. Достаточно текста, шапки профиля, описания услуги, карточки товара или любого текущего варианта предложения.</div>
-          </div>
-          <div class="faq-item">
-            <strong>Можно ли прислать ссылку на проект?</strong>
-            <div class="mini">Да. Если у вас есть сайт, профиль, лендинг или карточка товара, это поможет сделать разбор точнее.</div>
-          </div>
-        </div>
-      </div>
-    </section>
+            <h1>ОфферДоктор</h1>
 
-    <section id="contact">
-      <div class="container">
-        <div class="contact-card">
-          <div class="section-head" style="margin-bottom: 0;">
-            <h2>Контакты и реквизиты</h2>
-            <p>
-              Этот сайт можно использовать как стартовый лендинг для размещения ссылки в MAX.
-              Когда бот будет готов, сюда можно добавить кнопку перехода в бот,
-              Telegram, форму заявки или контакты для обратной связи.
+            <p class="hero-text">
+              Умный аудит для роста продаж. Пользователь делает минимум действий:
+              <strong>вставляет ссылку или текст</strong>, получает
+              <strong>базовый бесплатный аудит</strong>, а дальше выбирает —
+              <strong>расширенный разбор</strong> или
+              <strong>аудит с конкурентами</strong>.
             </p>
-          </div>
 
-          <div class="hero-actions" style="margin-top: 18px; margin-bottom: 0;">
-            <a href="#" class="btn btn-primary">Ссылка на бота MAX</a>
-          </div>
-
-          <div class="contact-boxes" style="margin-top: 16px;">
-            <div class="contact-box">
-              <strong>ИП</strong>
-              <span>ИП Бояринцев Е.А.</span>
-            </div>
-            <div class="contact-box">
-              <strong>ИНН</strong>
-              <span>771812324702</span>
-            </div>
-            <div class="contact-box">
-              <strong>ОГРНИП</strong>
-              <span>325774600008835</span>
+            <div class="hero-actions">
+              <a href="#prices" class="btn btn-primary">Посмотреть тарифы</a>
+              <a href="#formats" class="btn btn-secondary">Что можно проверить</a>
             </div>
           </div>
 
-          <div class="contact-boxes" style="margin-top: 16px;">
-            <div class="contact-box">
-              <strong>Банк</strong>
-              <span>ООО «Банк Точка»</span>
+          <div class="scenario-grid" id="formats">
+            <article class="scenario-card">
+              <div class="scenario-icon" aria-hidden="true">
+                <svg width="34" height="34" viewBox="0 0 24 24" fill="none">
+                  <path d="M4 8.5L8.7 5H16.2L20 8.5V18A2 2 0 0 1 18 20H6A2 2 0 0 1 4 18V8.5Z" stroke="#4D6480" stroke-width="1.8" stroke-linejoin="round"/>
+                  <path d="M8 9H16" stroke="#4D6480" stroke-width="1.8" stroke-linecap="round"/>
+                </svg>
+              </div>
+              <h3>Карточка товара</h3>
+              <p>Ozon, Wildberries, Яндекс Маркет. Отдельные сценарии под площадки, текст и платный визуальный слой.</p>
+            </article>
+
+            <article class="scenario-card">
+              <div class="scenario-icon" aria-hidden="true">
+                <svg width="34" height="34" viewBox="0 0 24 24" fill="none">
+                  <circle cx="6" cy="7" r="3" fill="#24B6D1"/>
+                  <circle cx="17" cy="6" r="3" fill="#F55252"/>
+                  <circle cx="17" cy="17" r="3" fill="#FDBA2C"/>
+                  <circle cx="7" cy="17" r="3" fill="#4A7EFF"/>
+                </svg>
+              </div>
+              <h3>Объявление Avito</h3>
+              <p>Анализ заголовка, первых строк, логики выгоды, доверия, призыва к действию и общего впечатления.</p>
+            </article>
+
+            <article class="scenario-card">
+              <div class="scenario-icon" aria-hidden="true">
+                <svg width="34" height="34" viewBox="0 0 24 24" fill="none">
+                  <rect x="3" y="5" width="18" height="14" rx="2.5" stroke="#4D6480" stroke-width="1.8"/>
+                  <path d="M3 9H21" stroke="#4D6480" stroke-width="1.8" stroke-linecap="round"/>
+                  <path d="M8 13H11" stroke="#4D6480" stroke-width="1.8" stroke-linecap="round"/>
+                  <path d="M14 13H17" stroke="#4D6480" stroke-width="1.8" stroke-linecap="round"/>
+                </svg>
+              </div>
+              <h3>Лендинг</h3>
+              <p>Первый экран, оффер, CTA, структура блоков, логика доверия и главные причины потери конверсии.</p>
+            </article>
+          </div>
+        </div>
+
+        <aside class="hero-right">
+          <div class="hero-right-inner">
+            <div>
+              <div class="panel-chip">Один визуальный язык • один понятный продукт</div>
+              <div class="panel-orb"><span>AI</span></div>
+              <h2 class="panel-title">Три понятных сценария вместо абстрактного «аудита всего»</h2>
+              <p class="panel-subtitle">
+                Лендинг не растягивается на ультрашироком экране, а фон продолжает жить по краям
+                мягкими световыми полями. Так сайт выглядит собранно и дорого.
+              </p>
             </div>
-            <div class="contact-box">
-              <strong>Расчетный счет</strong>
-              <span>40802810420000529109</span>
+
+            <div class="feature-stack">
+              <div class="feature-item">
+                <div class="feature-icon">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <rect x="4" y="5" width="16" height="14" rx="2.5" stroke="#C6F4FF" stroke-width="1.8"/>
+                    <circle cx="9" cy="10" r="1.8" fill="#C6F4FF"/>
+                    <path d="M6.5 16L10 12.5L13 15.5L15.5 13L18 16" stroke="#C6F4FF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+                <div>
+                  <strong>Платный визуальный слой для карточек</strong>
+                  <span>Фото, видео и rich content анализируем именно в расширенном контуре.</span>
+                </div>
+              </div>
+
+              <div class="feature-item">
+                <div class="feature-icon">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M5 18H19" stroke="#C6F4FF" stroke-width="1.8" stroke-linecap="round"/>
+                    <path d="M7 15V11" stroke="#C6F4FF" stroke-width="1.8" stroke-linecap="round"/>
+                    <path d="M12 15V7" stroke="#C6F4FF" stroke-width="1.8" stroke-linecap="round"/>
+                    <path d="M17 15V9" stroke="#C6F4FF" stroke-width="1.8" stroke-linecap="round"/>
+                  </svg>
+                </div>
+                <div>
+                  <strong>Тарифная лестница без путаницы</strong>
+                  <span>Базовый аудит бесплатно, затем расширенный аудит и старший тариф с конкурентами.</span>
+                </div>
+              </div>
+
+              <div class="feature-item">
+                <div class="feature-icon">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M7 4.8H15.5L19 8.3V18A2 2 0 0 1 17 20H7A2 2 0 0 1 5 18V6.8A2 2 0 0 1 7 4.8Z" stroke="#C6F4FF" stroke-width="1.8" stroke-linejoin="round"/>
+                    <path d="M9 11H15" stroke="#C6F4FF" stroke-width="1.8" stroke-linecap="round"/>
+                    <path d="M9 14.5H14" stroke="#C6F4FF" stroke-width="1.8" stroke-linecap="round"/>
+                  </svg>
+                </div>
+                <div>
+                  <strong>Жесткие сценарии вместо общих советов</strong>
+                  <span>Под каждую площадку и формат — отдельный prompt pack и отдельная логика результата.</span>
+                </div>
+              </div>
             </div>
-            <div class="contact-box">
-              <strong>БИК</strong>
-              <span>044525104</span>
+          </div>
+        </aside>
+      </section>
+
+      <section class="section-card" id="what-inside">
+        <p class="section-eyebrow">Что получает пользователь</p>
+        <h2 class="section-title">Бесплатный аудит должен быть ценным, а платный — заметно сильнее</h2>
+        <p class="section-description">
+          Базовый аудит не должен быть пустой отпиской. Он дает главную проблему, несколько слабых мест и быстрые рекомендации.
+          Расширенный аудит углубляет результат, а старший тариф добавляет слой сравнения с конкурентами.
+        </p>
+
+        <div class="audit-compare">
+          <div class="audit-box audit-box--free">
+            <h3>Базовый аудит — бесплатно</h3>
+            <ul>
+              <li>главная проблема в оффере или карточке;</li>
+              <li>2–3 слабых места;</li>
+              <li>быстрые рекомендации без воды;</li>
+              <li>понятный переход к платному уровню.</li>
+            </ul>
+          </div>
+
+          <div class="audit-box audit-box--paid">
+            <h3>Расширенный аудит и старший тариф</h3>
+            <ul>
+              <li>глубокий разбор текста и структуры;</li>
+              <li>для карточек — анализ фото, видео и rich content;</li>
+              <li>улучшенные формулировки и приоритет правок;</li>
+              <li>в старшем тарифе — автоматическое сравнение с конкурентами.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-card" id="prices" style="margin-top:24px;">
+        <p class="section-eyebrow">Тарифы</p>
+        <h2 class="section-title">Понятные цены по сценариям</h2>
+        <p class="section-description">
+          На старте продукт продается не подпиской, а понятными разовыми аудитами. Цена зависит от сложности сценария.
+        </p>
+
+        <div class="pricing-grid">
+          <article class="pricing-card">
+            <div class="pricing-tag">Avito</div>
+            <h3>Объявление Avito</h3>
+            <p>Быстрый разбор объявления, заголовка, первых строк и логики отклика.</p>
+            <div class="price-line">
+              <div class="price">149 ₽</div>
+              <div class="price-note">расширенный аудит</div>
             </div>
-            <div class="contact-box">
-              <strong>Корреспондентский счет</strong>
-              <span>30101810745374525104</span>
+            <ul class="pricing-list">
+              <li>базовый аудит — бесплатно</li>
+              <li>заголовок, описание, выгоды, доверие</li>
+              <li>что переписать в первую очередь</li>
+              <li>новые сильные формулировки</li>
+            </ul>
+            <a href="#start" class="btn btn-secondary">Открыть сценарий Avito</a>
+          </article>
+
+          <article class="pricing-card">
+            <div class="pricing-tag">Лендинг</div>
+            <h3>Лендинг</h3>
+            <p>Разбор первого экрана, оффера, CTA и структуры блоков без «общих советов».</p>
+            <div class="price-line">
+              <div class="price">199 ₽</div>
+              <div class="price-note">расширенный аудит</div>
+            </div>
+            <ul class="pricing-list">
+              <li>базовый аудит — бесплатно</li>
+              <li>анализ оффера, CTA и доверия</li>
+              <li>главные причины потери конверсии</li>
+              <li>что усилить в первую очередь</li>
+            </ul>
+            <a href="#start" class="btn btn-secondary">Открыть сценарий лендинга</a>
+          </article>
+
+          <article class="pricing-card featured">
+            <div class="pricing-tag">Карточка товара</div>
+            <h3>Карточка товара</h3>
+            <p>Ozon, Wildberries, Яндекс Маркет. Отдельные сценарии по площадкам и старший тариф с конкурентами.</p>
+            <div class="price-line">
+              <div class="price">249 ₽</div>
+              <div class="price-note">расширенный аудит</div>
+            </div>
+            <ul class="pricing-list">
+              <li>базовый аудит — бесплатно</li>
+              <li>анализ названия, описания, выгод и характеристик</li>
+              <li>в платном слое — фото, видео и rich content</li>
+              <li>старший тариф «Аудит + конкуренты» — 299 ₽</li>
+            </ul>
+            <a href="#start" class="btn btn-primary">Открыть сценарий карточки</a>
+          </article>
+        </div>
+      </section>
+
+      <section class="section-card" id="process" style="margin-top:24px;">
+        <p class="section-eyebrow">Как это работает</p>
+        <h2 class="section-title">Минимум действий для пользователя</h2>
+        <p class="section-description">
+          Вся логика строится вокруг быстрого и ленивого пользовательского сценария:
+          человек не должен разбираться в сложных настройках и аналитике.
+        </p>
+
+        <div class="steps">
+          <article class="step-card">
+            <div class="step-number">01</div>
+            <h3>Выбрать формат</h3>
+            <p>Карточка товара, Avito или лендинг — только понятные коммерческие сценарии.</p>
+          </article>
+
+          <article class="step-card">
+            <div class="step-number">02</div>
+            <h3>Вставить ссылку или текст</h3>
+            <p>Один вход — без сложного кабинета и без длинного онбординга на первом касании.</p>
+          </article>
+
+          <article class="step-card">
+            <div class="step-number">03</div>
+            <h3>Получить базовый аудит</h3>
+            <p>Бесплатно увидеть главную проблему, несколько слабых мест и быстрые правки.</p>
+          </article>
+
+          <article class="step-card">
+            <div class="step-number">04</div>
+            <h3>Выбрать глубину разбора</h3>
+            <p>Расширенный аудит или старший тариф с конкурентами — без путаницы в названиях.</p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer-card" id="requisites">
+      <div class="footer-top">
+        <div>
+          <div class="brand" style="pointer-events:none;">
+            <div class="logo"><span>Ai</span></div>
+            <div class="brand-text">
+              <div class="brand-title">ОфферДоктор</div>
+              <div class="brand-subtitle">Разбор УТП для услуг, экспертов и карточек товаров</div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
-  </main>
 
-  <footer>
-    <div class="container">
-      ОфферДоктор Разбор УТП · ИП Бояринцев Е.А. · ИНН 771812324702 · ОГРНИП 325774600008835
-    </div>
-  </footer>
+        <div class="footer-note">
+          Сервис быстрого аудита карточек товаров, объявлений Avito и лендингов.
+          Базовый аудит бесплатно, расширенный — по фиксированным тарифам.
+        </div>
+      </div>
+
+      <div class="requisites">
+        <div class="req-item">
+          <span>Наименование</span>
+          <strong>ИП Бояринцев Е.А.</strong>
+        </div>
+        <div class="req-item">
+          <span>ИНН</span>
+          <strong>771812324702</strong>
+        </div>
+        <div class="req-item">
+          <span>ОГРНИП</span>
+          <strong>325774600008835</strong>
+        </div>
+        <div class="req-item">
+          <span>Банк</span>
+          <strong>ООО «Банк Точка»</strong>
+        </div>
+      </div>
+
+      <div class="requisites" style="margin-top:16px;">
+        <div class="req-item">
+          <span>Расчетный счет</span>
+          <strong>40802810420000529109</strong>
+        </div>
+        <div class="req-item">
+          <span>БИК</span>
+          <strong>044525104</strong>
+        </div>
+        <div class="req-item">
+          <span>Корреспондентский счет</span>
+          <strong>30101810745374525104</strong>
+        </div>
+        <div class="req-item">
+          <span>Email</span>
+          <strong>hello@offerdoktor.ru</strong>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>© 2026 ОфферДоктор. ИП Бояринцев Е.А. · ИНН 771812324702 · ОГРНИП 325774600008835</div>
+        <div>Все права защищены.</div>
+      </div>
+    </footer>
+  </div>
 </body>
 </html>
