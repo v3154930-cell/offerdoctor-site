@@ -6,29 +6,31 @@
   <title>ОфферДоктор — аудит карточек, Avito и лендингов</title>
   <meta
     name="description"
-    content="ОфферДоктор — сервис быстрого аудита карточек товаров, объявлений Avito и лендингов. Базовый аудит бесплатно, расширенный — по фиксированным тарифам."
+    content="ОфферДоктор — сервис, который быстро показывает, почему карточка товара, объявление Avito или лендинг недобирают продажи, и что исправить в первую очередь."
   />
   <style>
     :root {
-      --bg: #f4f7fb;
-      --bg-deep: #eaf0f8;
-      --surface: rgba(255, 255, 255, 0.76);
-      --surface-strong: rgba(255, 255, 255, 0.9);
-      --surface-dark: rgba(11, 27, 46, 0.84);
-      --border: rgba(120, 145, 174, 0.2);
-      --text: #10233d;
-      --muted: #5d7088;
-      --primary: #19bdd0;
-      --primary-2: #4f6dff;
-      --accent: #64f0ff;
-      --success: #19b99a;
-      --shadow: 0 24px 60px rgba(18, 38, 63, 0.12);
-      --shadow-soft: 0 18px 48px rgba(21, 40, 73, 0.09);
+      --bg: #f4f8fd;
+      --bg-soft: #eef5fb;
+      --surface: rgba(255, 255, 255, 0.78);
+      --surface-strong: rgba(255, 255, 255, 0.92);
+      --surface-dark: rgba(10, 24, 44, 0.9);
+      --text: #10243e;
+      --muted: #61748d;
+      --line: rgba(112, 141, 173, 0.18);
+      --cyan: #1dc4d9;
+      --cyan-2: #65e8ff;
+      --blue: #4f73ff;
+      --blue-2: #7c93ff;
+      --dark: #0c1830;
+      --success: #18b99c;
+      --shadow: 0 28px 70px rgba(17, 35, 62, 0.12);
+      --shadow-soft: 0 18px 40px rgba(17, 35, 62, 0.08);
       --radius-xl: 34px;
       --radius-lg: 26px;
       --radius-md: 20px;
       --radius-sm: 16px;
-      --max: 1420px;
+      --max-width: 1440px;
     }
 
     * {
@@ -44,11 +46,11 @@
       font-family: Inter, Arial, Helvetica, sans-serif;
       color: var(--text);
       background:
-        radial-gradient(circle at 8% 16%, rgba(103, 218, 255, 0.22), transparent 0 24%),
-        radial-gradient(circle at 92% 14%, rgba(72, 108, 255, 0.15), transparent 0 22%),
-        radial-gradient(circle at 84% 78%, rgba(27, 209, 219, 0.16), transparent 0 20%),
-        radial-gradient(circle at 14% 86%, rgba(115, 175, 255, 0.12), transparent 0 18%),
-        linear-gradient(180deg, #f8fbff 0%, #edf3fa 52%, #eef4fb 100%);
+        radial-gradient(circle at 6% 10%, rgba(104, 232, 255, 0.22), transparent 0 24%),
+        radial-gradient(circle at 92% 8%, rgba(91, 129, 255, 0.16), transparent 0 24%),
+        radial-gradient(circle at 84% 76%, rgba(28, 196, 214, 0.14), transparent 0 22%),
+        radial-gradient(circle at 12% 88%, rgba(84, 115, 255, 0.10), transparent 0 18%),
+        linear-gradient(180deg, #f8fbff 0%, #eef4fb 48%, #edf3fa 100%);
       min-height: 100vh;
       overflow-x: hidden;
     }
@@ -57,27 +59,52 @@
     body::after {
       content: "";
       position: fixed;
-      inset: auto;
       pointer-events: none;
       z-index: 0;
-      filter: blur(36px);
-      opacity: 0.7;
+      filter: blur(38px);
+      opacity: 0.75;
     }
 
     body::before {
-      width: 540px;
-      height: 540px;
-      right: -140px;
-      top: 110px;
-      background: radial-gradient(circle, rgba(56, 176, 255, 0.2) 0%, rgba(56, 176, 255, 0.06) 38%, transparent 70%);
+      width: 520px;
+      height: 520px;
+      left: -140px;
+      top: 18%;
+      background: radial-gradient(circle, rgba(34, 211, 238, 0.2) 0%, rgba(34, 211, 238, 0.06) 42%, transparent 72%);
+      animation: floatGlow 18s ease-in-out infinite;
     }
 
     body::after {
-      width: 620px;
-      height: 620px;
-      left: -180px;
-      bottom: -90px;
-      background: radial-gradient(circle, rgba(28, 220, 214, 0.14) 0%, rgba(28, 220, 214, 0.05) 40%, transparent 70%);
+      width: 560px;
+      height: 560px;
+      right: -160px;
+      bottom: 4%;
+      background: radial-gradient(circle, rgba(79, 115, 255, 0.18) 0%, rgba(79, 115, 255, 0.05) 42%, transparent 72%);
+      animation: floatGlow 22s ease-in-out infinite reverse;
+    }
+
+    @keyframes floatGlow {
+      0%, 100% { transform: translateY(0) translateX(0) scale(1); }
+      50% { transform: translateY(-18px) translateX(12px) scale(1.04); }
+    }
+
+    @keyframes shineMove {
+      0% { transform: translateX(-120%) skewX(-18deg); opacity: 0; }
+      18% { opacity: 0.6; }
+      40% { transform: translateX(140%) skewX(-18deg); opacity: 0; }
+      100% { transform: translateX(140%) skewX(-18deg); opacity: 0; }
+    }
+
+    @keyframes auroraMove {
+      0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+      33% { transform: translate3d(18px, -10px, 0) rotate(3deg); }
+      66% { transform: translate3d(-12px, 12px, 0) rotate(-3deg); }
+    }
+
+    @keyframes pulseRing {
+      0% { transform: scale(0.95); opacity: 0.45; }
+      70% { transform: scale(1.08); opacity: 0; }
+      100% { transform: scale(1.08); opacity: 0; }
     }
 
     a {
@@ -88,14 +115,14 @@
     .page {
       position: relative;
       z-index: 1;
-      width: min(calc(100% - 32px), var(--max));
+      width: min(calc(100% - 32px), var(--max-width));
       margin: 0 auto;
-      padding: 24px 0 36px;
+      padding: 22px 0 34px;
     }
 
     .topbar {
       position: sticky;
-      top: 18px;
+      top: 14px;
       z-index: 30;
       display: flex;
       align-items: center;
@@ -103,11 +130,11 @@
       gap: 24px;
       padding: 16px 20px;
       margin-bottom: 24px;
-      background: rgba(255, 255, 255, 0.62);
-      border: 1px solid rgba(255, 255, 255, 0.7);
+      background: rgba(255, 255, 255, 0.64);
+      border: 1px solid rgba(255, 255, 255, 0.72);
       backdrop-filter: blur(18px);
-      border-radius: 22px;
-      box-shadow: 0 12px 34px rgba(17, 36, 67, 0.08);
+      border-radius: 24px;
+      box-shadow: 0 14px 40px rgba(17, 35, 62, 0.08);
     }
 
     .brand {
@@ -117,56 +144,66 @@
       min-width: 0;
     }
 
-    .logo {
+    .brand-mark {
       position: relative;
-      width: 54px;
-      height: 54px;
-      flex: 0 0 54px;
+      width: 56px;
+      height: 56px;
+      flex: 0 0 56px;
       border-radius: 18px;
       display: grid;
       place-items: center;
       background:
-        radial-gradient(circle at 50% 22%, rgba(255,255,255,0.95), rgba(255,255,255,0.08) 46%, transparent 62%),
-        linear-gradient(145deg, rgba(26, 196, 228, 0.96), rgba(62, 109, 255, 0.95));
+        radial-gradient(circle at 50% 18%, rgba(255,255,255,0.94), rgba(255,255,255,0.08) 42%, transparent 64%),
+        linear-gradient(145deg, rgba(28, 196, 214, 1), rgba(79, 115, 255, 1));
       box-shadow:
-        0 18px 40px rgba(47, 120, 255, 0.22),
+        0 18px 42px rgba(54, 116, 255, 0.22),
         inset 0 1px 0 rgba(255,255,255,0.55);
+      overflow: hidden;
     }
 
-    .logo::before {
+    .brand-mark::before {
       content: "";
       position: absolute;
-      inset: 8px;
-      border-radius: 14px;
+      inset: 9px;
+      border-radius: 13px;
       border: 2px solid rgba(255,255,255,0.78);
-      opacity: 0.82;
     }
 
-    .logo span {
+    .brand-mark::after {
+      content: "";
+      position: absolute;
+      width: 80%;
+      height: 180%;
+      top: -40%;
+      left: -30%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
+      transform: skewX(-18deg);
+      animation: shineMove 5.2s linear infinite;
+    }
+
+    .brand-mark span {
       position: relative;
-      z-index: 1;
+      z-index: 2;
       font-size: 22px;
       font-weight: 900;
-      color: #fff;
       letter-spacing: 0.02em;
-    }
-
-    .brand-text {
-      min-width: 0;
+      color: #fff;
+      text-transform: uppercase;
     }
 
     .brand-title {
       font-size: 22px;
-      font-weight: 800;
       line-height: 1.05;
+      font-weight: 900;
       color: #102742;
+      letter-spacing: -0.02em;
     }
 
     .brand-subtitle {
       margin-top: 4px;
       color: var(--muted);
       font-size: 13px;
-      line-height: 1.35;
+      line-height: 1.4;
     }
 
     .topnav {
@@ -182,33 +219,47 @@
       border-radius: 14px;
       color: #22405d;
       font-size: 14px;
-      font-weight: 600;
+      font-weight: 700;
       transition: 0.25s ease;
     }
 
     .topnav a:hover {
-      background: rgba(26, 190, 208, 0.1);
-      color: #0f2742;
+      background: rgba(28, 196, 214, 0.1);
+      color: #102742;
     }
 
-    .topnav .nav-cta {
-      background: linear-gradient(135deg, var(--primary), var(--primary-2));
+    .topnav .max-link {
+      position: relative;
+      overflow: hidden;
       color: #fff;
-      box-shadow: 0 14px 34px rgba(42, 113, 255, 0.22);
+      background: linear-gradient(135deg, var(--cyan), var(--blue));
+      box-shadow: 0 16px 36px rgba(54, 116, 255, 0.24);
     }
 
-    .topnav .nav-cta:hover {
+    .topnav .max-link::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      padding: 1px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.55), rgba(255,255,255,0), rgba(255,255,255,0.4));
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor;
+              mask-composite: exclude;
+      pointer-events: none;
+    }
+
+    .topnav .max-link:hover {
       color: #fff;
       transform: translateY(-1px);
-      box-shadow: 0 16px 36px rgba(42, 113, 255, 0.28);
+      box-shadow: 0 20px 42px rgba(54, 116, 255, 0.3);
     }
 
     .hero {
       display: grid;
       grid-template-columns: 1.08fr 0.92fr;
       gap: 24px;
-      align-items: stretch;
-      margin-bottom: 28px;
+      margin-bottom: 24px;
     }
 
     .hero-left,
@@ -216,17 +267,17 @@
     .section-card,
     .footer-card {
       background: var(--surface);
-      border: 1px solid rgba(255, 255, 255, 0.72);
-      box-shadow: var(--shadow);
+      border: 1px solid rgba(255, 255, 255, 0.74);
       backdrop-filter: blur(18px);
+      box-shadow: var(--shadow);
       border-radius: var(--radius-xl);
     }
 
     .hero-left {
       position: relative;
-      padding: 34px 34px 28px;
       overflow: hidden;
-      min-height: 660px;
+      padding: 34px 34px 28px;
+      min-height: 700px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -235,123 +286,140 @@
     .hero-left::before {
       content: "";
       position: absolute;
-      width: 520px;
-      height: 520px;
-      right: -160px;
-      top: -170px;
-      background: radial-gradient(circle, rgba(103, 243, 255, 0.28) 0%, rgba(103, 243, 255, 0.08) 34%, transparent 70%);
-      filter: blur(10px);
+      width: 560px;
+      height: 560px;
+      right: -180px;
+      top: -180px;
+      background: radial-gradient(circle, rgba(101, 232, 255, 0.26) 0%, rgba(101, 232, 255, 0.08) 38%, transparent 72%);
+      animation: auroraMove 18s ease-in-out infinite;
     }
 
     .hero-left::after {
       content: "";
       position: absolute;
       left: -120px;
-      bottom: -160px;
-      width: 560px;
-      height: 560px;
-      background: radial-gradient(circle, rgba(74, 109, 255, 0.14) 0%, rgba(74, 109, 255, 0.04) 36%, transparent 68%);
+      bottom: -180px;
+      width: 620px;
+      height: 620px;
+      background: radial-gradient(circle, rgba(79, 115, 255, 0.14) 0%, rgba(79, 115, 255, 0.04) 38%, transparent 74%);
+      animation: auroraMove 20s ease-in-out infinite reverse;
     }
 
-    .hero-head {
+    .hero-content {
       position: relative;
       z-index: 1;
       max-width: 760px;
     }
 
-    .badge {
+    .eyebrow {
       display: inline-flex;
       align-items: center;
       gap: 10px;
       padding: 10px 14px;
       border-radius: 999px;
-      background: rgba(255, 255, 255, 0.78);
-      border: 1px solid rgba(120, 145, 174, 0.18);
-      color: #21415d;
-      font-size: 13px;
-      font-weight: 700;
+      background: rgba(255,255,255,0.8);
+      border: 1px solid rgba(113, 141, 173, 0.16);
       box-shadow: var(--shadow-soft);
+      color: #23425f;
+      font-size: 13px;
+      font-weight: 800;
       margin-bottom: 22px;
     }
 
-    .badge-dot {
+    .eyebrow-dot {
       width: 10px;
       height: 10px;
       border-radius: 999px;
-      background: linear-gradient(135deg, var(--accent), var(--primary-2));
-      box-shadow: 0 0 0 8px rgba(83, 195, 255, 0.12);
+      background: linear-gradient(135deg, var(--cyan-2), var(--blue));
+      box-shadow: 0 0 0 8px rgba(102, 232, 255, 0.12);
       flex: 0 0 10px;
     }
 
     .hero-logo {
       display: inline-flex;
       align-items: center;
-      gap: 16px;
+      gap: 18px;
       margin-bottom: 18px;
     }
 
     .hero-logo-mark {
       position: relative;
-      width: 82px;
-      height: 82px;
-      border-radius: 24px;
+      width: 92px;
+      height: 92px;
+      flex: 0 0 92px;
+      border-radius: 28px;
       display: grid;
       place-items: center;
       background:
-        radial-gradient(circle at 50% 20%, rgba(255,255,255,0.95), rgba(255,255,255,0.05) 44%, transparent 62%),
-        linear-gradient(145deg, rgba(26, 196, 228, 1), rgba(62, 109, 255, 1));
+        radial-gradient(circle at 50% 18%, rgba(255,255,255,0.95), rgba(255,255,255,0.08) 44%, transparent 64%),
+        linear-gradient(145deg, rgba(28, 196, 214, 1), rgba(79, 115, 255, 1));
       box-shadow:
-        0 24px 54px rgba(53, 123, 255, 0.24),
-        0 0 0 10px rgba(102, 222, 255, 0.1);
+        0 28px 60px rgba(54, 116, 255, 0.24),
+        0 0 0 14px rgba(101, 232, 255, 0.08);
+      overflow: hidden;
     }
 
     .hero-logo-mark::before {
       content: "";
       position: absolute;
-      inset: 10px;
-      border-radius: 18px;
+      inset: 11px;
+      border-radius: 20px;
       border: 2px solid rgba(255,255,255,0.82);
+    }
+
+    .hero-logo-mark::after {
+      content: "";
+      position: absolute;
+      width: 70%;
+      height: 170%;
+      top: -35%;
+      left: -25%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.72), transparent);
+      transform: skewX(-18deg);
+      animation: shineMove 4.8s linear infinite;
     }
 
     .hero-logo-mark span {
       position: relative;
-      z-index: 1;
+      z-index: 2;
       font-size: 34px;
       font-weight: 900;
       color: #fff;
-      text-transform: uppercase;
       letter-spacing: 0.02em;
+      text-transform: uppercase;
     }
 
     h1 {
       margin: 0;
-      font-size: clamp(42px, 6vw, 78px);
+      font-size: clamp(44px, 6vw, 82px);
       line-height: 0.95;
-      letter-spacing: -0.04em;
+      letter-spacing: -0.05em;
       font-weight: 900;
-      color: #0d2742;
+      color: #0d2843;
     }
 
-    .hero-text {
-      max-width: 720px;
+    .hero-lead {
       margin: 18px 0 0;
-      font-size: 18px;
-      line-height: 1.7;
+      max-width: 700px;
+      font-size: 19px;
+      line-height: 1.72;
       color: var(--muted);
     }
 
-    .hero-text strong {
-      color: #16314d;
+    .hero-lead strong {
+      color: #15324f;
     }
 
     .hero-actions {
       display: flex;
-      flex-wrap: wrap;
       gap: 14px;
-      margin-top: 26px;
+      flex-wrap: wrap;
+      margin-top: 28px;
     }
 
     .btn {
+      position: relative;
+      overflow: hidden;
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -361,31 +429,43 @@
       border-radius: 18px;
       padding: 16px 22px;
       font-size: 15px;
-      font-weight: 700;
+      font-weight: 800;
       transition: 0.25s ease;
       text-decoration: none;
     }
 
     .btn-primary {
       color: #fff;
-      background: linear-gradient(135deg, var(--primary), var(--primary-2));
-      box-shadow: 0 18px 36px rgba(53, 123, 255, 0.26);
+      background: linear-gradient(135deg, var(--cyan), var(--blue));
+      box-shadow: 0 18px 38px rgba(54, 116, 255, 0.25);
+    }
+
+    .btn-primary::after {
+      content: "";
+      position: absolute;
+      width: 60%;
+      height: 160%;
+      top: -35%;
+      left: -70%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.52), transparent);
+      transform: skewX(-18deg);
+      animation: shineMove 4.4s linear infinite;
     }
 
     .btn-primary:hover {
       transform: translateY(-1px);
-      box-shadow: 0 22px 42px rgba(53, 123, 255, 0.32);
+      box-shadow: 0 22px 46px rgba(54, 116, 255, 0.32);
     }
 
     .btn-secondary {
-      color: #14324d;
-      background: rgba(255,255,255,0.82);
-      border: 1px solid rgba(120, 145, 174, 0.2);
+      color: #15324f;
+      background: rgba(255,255,255,0.84);
+      border: 1px solid rgba(112, 141, 173, 0.18);
       box-shadow: var(--shadow-soft);
     }
 
     .btn-secondary:hover {
-      background: rgba(255,255,255,0.95);
+      background: rgba(255,255,255,0.96);
     }
 
     .scenario-grid {
@@ -399,42 +479,49 @@
 
     .scenario-card {
       position: relative;
+      overflow: hidden;
       padding: 22px 18px 18px;
       border-radius: 24px;
-      background: rgba(255,255,255,0.88);
-      border: 1px solid rgba(126, 151, 182, 0.18);
-      box-shadow: 0 18px 42px rgba(20, 42, 70, 0.1);
-      overflow: hidden;
-      min-height: 224px;
+      background: rgba(255,255,255,0.9);
+      border: 1px solid rgba(112, 141, 173, 0.16);
+      box-shadow: 0 18px 42px rgba(17, 35, 62, 0.1);
       transition: transform 0.25s ease, box-shadow 0.25s ease;
     }
 
     .scenario-card:hover {
       transform: translateY(-4px);
-      box-shadow: 0 24px 52px rgba(20, 42, 70, 0.14);
+      box-shadow: 0 24px 54px rgba(17, 35, 62, 0.14);
     }
 
     .scenario-card::before {
       content: "";
       position: absolute;
-      inset: auto -30px -40px auto;
-      width: 160px;
-      height: 160px;
+      inset: auto -36px -50px auto;
+      width: 180px;
+      height: 180px;
       border-radius: 999px;
-      background: radial-gradient(circle, rgba(93, 211, 255, 0.18), transparent 68%);
+      background: radial-gradient(circle, rgba(101, 232, 255, 0.18), transparent 70%);
+      pointer-events: none;
+    }
+
+    .scenario-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at top right, rgba(101, 232, 255, 0.08), transparent 45%);
       pointer-events: none;
     }
 
     .scenario-icon {
-      width: 68px;
-      height: 68px;
-      border-radius: 18px;
+      width: 72px;
+      height: 72px;
+      border-radius: 20px;
       display: grid;
       place-items: center;
       margin-bottom: 18px;
-      background: linear-gradient(145deg, rgba(255,255,255,0.98), rgba(233, 243, 251, 0.9));
-      border: 1px solid rgba(121, 145, 176, 0.16);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.72);
+      background: linear-gradient(145deg, rgba(255,255,255,1), rgba(237, 245, 252, 0.94));
+      border: 1px solid rgba(112, 141, 173, 0.14);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.76);
     }
 
     .scenario-card h3 {
@@ -442,36 +529,36 @@
       font-size: 26px;
       line-height: 1.1;
       font-weight: 800;
-      color: #10233d;
+      color: #112640;
     }
 
     .scenario-card p {
       margin: 0;
       font-size: 15px;
-      line-height: 1.6;
+      line-height: 1.65;
       color: var(--muted);
     }
 
     .hero-right {
       position: relative;
-      padding: 28px;
       overflow: hidden;
-      min-height: 660px;
+      padding: 30px;
+      min-height: 700px;
       background:
-        radial-gradient(circle at 20% 0%, rgba(73, 188, 255, 0.2), transparent 0 26%),
-        linear-gradient(160deg, rgba(11, 26, 44, 0.96), rgba(18, 39, 67, 0.94));
-      color: #e9f7ff;
+        radial-gradient(circle at 24% 0%, rgba(78, 208, 255, 0.16), transparent 0 26%),
+        linear-gradient(160deg, rgba(9, 23, 41, 0.98), rgba(16, 36, 62, 0.96));
+      color: #ecf9ff;
     }
 
     .hero-right::before {
       content: "";
       position: absolute;
-      width: 540px;
-      height: 540px;
+      width: 620px;
+      height: 620px;
       right: -180px;
-      top: -120px;
-      background: radial-gradient(circle, rgba(81, 204, 255, 0.18) 0%, rgba(81, 204, 255, 0.06) 34%, transparent 70%);
-      filter: blur(14px);
+      top: -130px;
+      background: radial-gradient(circle, rgba(80, 208, 255, 0.18) 0%, rgba(80, 208, 255, 0.05) 34%, transparent 70%);
+      filter: blur(16px);
     }
 
     .hero-right::after {
@@ -479,155 +566,206 @@
       position: absolute;
       left: -130px;
       bottom: -180px;
-      width: 480px;
-      height: 480px;
-      background: radial-gradient(circle, rgba(49, 113, 255, 0.18) 0%, transparent 72%);
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(79, 115, 255, 0.18) 0%, transparent 72%);
       filter: blur(18px);
     }
 
-    .hero-right-inner {
+    .hero-panel {
       position: relative;
       z-index: 1;
       height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+      display: grid;
       gap: 22px;
+      align-content: space-between;
     }
 
-    .panel-chip {
+    .panel-top {
+      display: grid;
+      gap: 18px;
+    }
+
+    .panel-badge {
       display: inline-flex;
       align-items: center;
       gap: 10px;
       width: fit-content;
       padding: 10px 14px;
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(158, 212, 255, 0.14);
       border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(157, 214, 255, 0.12);
       font-size: 13px;
-      font-weight: 700;
-      color: #bfeeff;
+      font-weight: 800;
+      color: #c9f5ff;
     }
 
-    .panel-orb {
+    .ai-core {
       position: relative;
-      margin: 8px auto 0;
-      width: 280px;
-      height: 280px;
+      margin: 4px auto 0;
+      width: 292px;
+      height: 292px;
       border-radius: 50%;
       display: grid;
       place-items: center;
       background:
-        radial-gradient(circle at 50% 36%, rgba(255,255,255,0.9), rgba(255,255,255,0.08) 42%, transparent 68%),
-        radial-gradient(circle at 50% 50%, rgba(92, 211, 255, 0.28), rgba(92, 211, 255, 0.06) 48%, transparent 72%),
-        linear-gradient(145deg, rgba(23, 177, 214, 0.95), rgba(61, 110, 255, 0.95));
+        radial-gradient(circle at 50% 24%, rgba(255,255,255,0.92), rgba(255,255,255,0.08) 42%, transparent 66%),
+        radial-gradient(circle at 50% 50%, rgba(101, 232, 255, 0.22), rgba(101, 232, 255, 0.05) 48%, transparent 72%),
+        linear-gradient(145deg, rgba(28, 196, 214, 0.96), rgba(79, 115, 255, 0.96));
       box-shadow:
-        0 34px 80px rgba(34, 130, 255, 0.28),
-        0 0 0 18px rgba(70, 204, 255, 0.05);
+        0 34px 84px rgba(35, 110, 255, 0.28),
+        0 0 0 18px rgba(101, 232, 255, 0.05);
     }
 
-    .panel-orb::before {
+    .ai-core::before,
+    .ai-core::after {
       content: "";
       position: absolute;
-      inset: -16px;
       border-radius: 50%;
-      border: 1px solid rgba(153, 229, 255, 0.12);
+      inset: -8px;
+      border: 1px solid rgba(160, 231, 255, 0.16);
     }
 
-    .panel-orb::after {
-      content: "";
-      position: absolute;
-      inset: 18px;
-      border-radius: 50%;
+    .ai-core::after {
+      inset: 24px;
       border: 2px solid rgba(255,255,255,0.62);
     }
 
-    .panel-orb span {
+    .ai-core-ring {
+      position: absolute;
+      inset: -14px;
+      border-radius: 50%;
+      border: 1px solid rgba(160, 231, 255, 0.28);
+      animation: pulseRing 2.8s ease-out infinite;
+    }
+
+    .ai-core-ring.delay {
+      animation-delay: 1.2s;
+    }
+
+    .ai-core span {
       position: relative;
-      z-index: 1;
-      font-size: 76px;
+      z-index: 2;
+      font-size: 82px;
       line-height: 1;
       font-weight: 900;
-      letter-spacing: -0.04em;
+      letter-spacing: -0.06em;
       color: #fff;
       text-transform: uppercase;
-      text-shadow: 0 8px 30px rgba(20, 75, 161, 0.25);
+      text-shadow: 0 10px 28px rgba(19, 65, 136, 0.22);
     }
 
     .panel-title {
       margin: 0;
       text-align: center;
       font-size: 34px;
-      line-height: 1.12;
+      line-height: 1.14;
       font-weight: 900;
       letter-spacing: -0.03em;
     }
 
     .panel-subtitle {
-      max-width: 420px;
+      max-width: 430px;
       margin: 0 auto;
       text-align: center;
-      color: rgba(233, 247, 255, 0.72);
+      color: rgba(236, 249, 255, 0.72);
       font-size: 15px;
-      line-height: 1.65;
+      line-height: 1.72;
     }
 
-    .feature-stack {
+    .panel-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .panel-card {
+      position: relative;
+      overflow: hidden;
+      padding: 16px 16px 15px;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(157, 214, 255, 0.1);
+      min-height: 146px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
+    }
+
+    .panel-card::before {
+      content: "";
+      position: absolute;
+      right: -26px;
+      bottom: -28px;
+      width: 120px;
+      height: 120px;
+      border-radius: 999px;
+      background: radial-gradient(circle, rgba(101, 232, 255, 0.16), transparent 72%);
+      pointer-events: none;
+    }
+
+    .panel-card h4 {
+      margin: 0 0 10px;
+      font-size: 16px;
+      line-height: 1.25;
+      font-weight: 800;
+      color: #ecf9ff;
+    }
+
+    .panel-card p {
+      margin: 0;
+      font-size: 13px;
+      line-height: 1.65;
+      color: rgba(236, 249, 255, 0.68);
+    }
+
+    .panel-list {
       display: grid;
       gap: 14px;
     }
 
-    .feature-item {
+    .panel-list-item {
       display: flex;
-      align-items: center;
       gap: 14px;
+      align-items: flex-start;
       padding: 16px 18px;
       border-radius: 20px;
       background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(157, 216, 255, 0.1);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
+      border: 1px solid rgba(157, 214, 255, 0.1);
     }
 
-    .feature-icon {
+    .panel-list-icon {
       width: 48px;
       height: 48px;
+      flex: 0 0 48px;
       border-radius: 14px;
       display: grid;
       place-items: center;
       background: linear-gradient(145deg, rgba(255,255,255,0.12), rgba(255,255,255,0.05));
       border: 1px solid rgba(170, 227, 255, 0.12);
-      flex: 0 0 48px;
     }
 
-    .feature-item strong {
+    .panel-list-item strong {
       display: block;
       margin-bottom: 4px;
       font-size: 15px;
-      color: #f4fbff;
+      color: #f5fcff;
     }
 
-    .feature-item span {
+    .panel-list-item span {
       display: block;
       font-size: 13px;
-      line-height: 1.5;
-      color: rgba(233, 247, 255, 0.68);
-    }
-
-    .grid-2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
-      margin-bottom: 24px;
+      line-height: 1.62;
+      color: rgba(236, 249, 255, 0.68);
     }
 
     .section-card {
       padding: 32px;
+      margin-bottom: 24px;
       overflow: hidden;
     }
 
     .section-eyebrow {
       margin: 0 0 12px;
-      color: #2b84c9;
+      color: #2886c6;
       font-size: 13px;
       font-weight: 800;
       letter-spacing: 0.12em;
@@ -636,90 +774,104 @@
 
     .section-title {
       margin: 0;
-      font-size: clamp(28px, 4vw, 42px);
+      font-size: clamp(28px, 4vw, 44px);
       line-height: 1.08;
       letter-spacing: -0.03em;
       font-weight: 900;
-      color: #10233d;
+      color: #10243e;
     }
 
     .section-description {
-      max-width: 820px;
+      max-width: 860px;
       margin: 16px 0 0;
-      font-size: 16px;
-      line-height: 1.75;
       color: var(--muted);
+      font-size: 16px;
+      line-height: 1.78;
     }
 
-    .audit-compare {
-      margin-top: 26px;
+    .value-grid {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 16px;
+      margin-top: 28px;
     }
 
-    .audit-box {
-      padding: 20px;
-      border-radius: 22px;
-      background: rgba(255,255,255,0.82);
-      border: 1px solid rgba(120, 145, 174, 0.18);
+    .value-card {
+      position: relative;
+      overflow: hidden;
+      padding: 22px;
+      border-radius: 26px;
+      background: rgba(255,255,255,0.88);
+      border: 1px solid rgba(112, 141, 173, 0.16);
       box-shadow: var(--shadow-soft);
     }
 
-    .audit-box h3 {
-      margin: 0 0 12px;
-      font-size: 20px;
-      line-height: 1.2;
+    .value-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at top right, rgba(101, 232, 255, 0.08), transparent 44%);
+      pointer-events: none;
     }
 
-    .audit-box ul {
+    .value-icon {
+      width: 56px;
+      height: 56px;
+      display: grid;
+      place-items: center;
+      border-radius: 18px;
+      margin-bottom: 16px;
+      background: linear-gradient(145deg, rgba(255,255,255,1), rgba(237, 245, 252, 0.92));
+      border: 1px solid rgba(112, 141, 173, 0.14);
+    }
+
+    .value-card h3 {
+      margin: 0 0 10px;
+      font-size: 22px;
+      line-height: 1.18;
+      font-weight: 800;
+    }
+
+    .value-card p {
       margin: 0;
-      padding-left: 18px;
       color: var(--muted);
-      line-height: 1.72;
       font-size: 15px;
-    }
-
-    .audit-box--free {
-      background: linear-gradient(180deg, rgba(255,255,255,0.88), rgba(242, 249, 255, 0.88));
-    }
-
-    .audit-box--paid {
-      background: linear-gradient(180deg, rgba(15, 32, 54, 0.98), rgba(18, 40, 68, 0.96));
-      color: #edf8ff;
-      border-color: rgba(112, 203, 255, 0.12);
-      box-shadow: 0 26px 52px rgba(17, 38, 67, 0.18);
-    }
-
-    .audit-box--paid ul {
-      color: rgba(237, 248, 255, 0.76);
+      line-height: 1.72;
     }
 
     .pricing-grid {
-      margin-top: 28px;
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 18px;
+      margin-top: 28px;
     }
 
     .pricing-card {
       position: relative;
+      overflow: hidden;
       padding: 24px;
       border-radius: 28px;
-      background: rgba(255,255,255,0.88);
-      border: 1px solid rgba(120, 145, 174, 0.18);
+      background: rgba(255,255,255,0.9);
+      border: 1px solid rgba(112, 141, 173, 0.16);
       box-shadow: var(--shadow-soft);
       display: flex;
       flex-direction: column;
       min-height: 100%;
-      overflow: hidden;
     }
 
     .pricing-card.featured {
-      background: linear-gradient(180deg, rgba(11, 27, 46, 0.97), rgba(18, 39, 67, 0.96));
-      color: #eefaff;
-      border-color: rgba(112, 203, 255, 0.12);
-      box-shadow: 0 28px 58px rgba(20, 40, 73, 0.2);
+      background: linear-gradient(180deg, rgba(9, 23, 41, 0.98), rgba(16, 36, 62, 0.96));
+      color: #effaff;
+      border-color: rgba(157, 214, 255, 0.12);
+      box-shadow: 0 28px 58px rgba(17, 35, 62, 0.18);
+    }
+
+    .pricing-card.featured::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top right, rgba(101, 232, 255, 0.14), transparent 36%);
+      pointer-events: none;
     }
 
     .pricing-tag {
@@ -728,36 +880,36 @@
       width: fit-content;
       padding: 8px 12px;
       border-radius: 999px;
-      background: rgba(24, 190, 207, 0.12);
-      color: #1786bf;
+      background: rgba(28, 196, 214, 0.12);
+      color: #2484c7;
       font-size: 12px;
       font-weight: 800;
-      text-transform: uppercase;
       letter-spacing: 0.08em;
+      text-transform: uppercase;
       margin-bottom: 16px;
     }
 
     .pricing-card.featured .pricing-tag {
-      background: rgba(112, 203, 255, 0.12);
-      color: #8ee9ff;
+      background: rgba(101, 232, 255, 0.12);
+      color: #8fe9ff;
     }
 
     .pricing-card h3 {
       margin: 0 0 8px;
-      font-size: 26px;
+      font-size: 24px;
       line-height: 1.15;
       font-weight: 900;
     }
 
     .pricing-card p {
-      margin: 0 0 18px;
+      margin: 0 0 16px;
       color: var(--muted);
       font-size: 15px;
-      line-height: 1.65;
+      line-height: 1.68;
     }
 
     .pricing-card.featured p {
-      color: rgba(238, 250, 255, 0.74);
+      color: rgba(239, 250, 255, 0.72);
     }
 
     .price-line {
@@ -768,7 +920,7 @@
     }
 
     .price {
-      font-size: 42px;
+      font-size: 40px;
       line-height: 1;
       font-weight: 900;
       letter-spacing: -0.04em;
@@ -776,34 +928,28 @@
 
     .price-note {
       font-size: 14px;
-      color: var(--muted);
       font-weight: 700;
+      color: var(--muted);
       padding-bottom: 4px;
     }
 
     .pricing-card.featured .price-note {
-      color: rgba(238, 250, 255, 0.68);
+      color: rgba(239, 250, 255, 0.68);
     }
 
     .pricing-list {
-      margin: 0 0 24px;
+      margin: 0 0 22px;
       padding: 0;
       list-style: none;
       display: grid;
       gap: 12px;
-      color: #20405c;
-    }
-
-    .pricing-card.featured .pricing-list {
-      color: rgba(238, 250, 255, 0.9);
     }
 
     .pricing-list li {
       display: flex;
-      align-items: flex-start;
       gap: 10px;
       font-size: 15px;
-      line-height: 1.6;
+      line-height: 1.62;
     }
 
     .pricing-list li::before {
@@ -813,110 +959,109 @@
       flex: 0 0 8px;
       border-radius: 999px;
       margin-top: 9px;
-      background: linear-gradient(135deg, var(--primary), var(--primary-2));
-      box-shadow: 0 0 0 6px rgba(93, 211, 255, 0.12);
+      background: linear-gradient(135deg, var(--cyan), var(--blue));
+      box-shadow: 0 0 0 6px rgba(101, 232, 255, 0.1);
     }
 
     .pricing-card .btn {
       margin-top: auto;
     }
 
-    .steps {
-      margin-top: 26px;
+    .steps-grid {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 16px;
+      margin-top: 28px;
     }
 
     .step-card {
       padding: 22px 18px;
       border-radius: 24px;
-      background: rgba(255,255,255,0.84);
-      border: 1px solid rgba(120, 145, 174, 0.18);
+      background: rgba(255,255,255,0.86);
+      border: 1px solid rgba(112, 141, 173, 0.16);
       box-shadow: var(--shadow-soft);
     }
 
     .step-number {
-      width: 40px;
-      height: 40px;
+      width: 42px;
+      height: 42px;
       display: grid;
       place-items: center;
-      border-radius: 12px;
+      border-radius: 14px;
       margin-bottom: 14px;
       font-size: 15px;
       font-weight: 900;
       color: #fff;
-      background: linear-gradient(135deg, var(--primary), var(--primary-2));
-      box-shadow: 0 12px 28px rgba(57, 125, 255, 0.22);
+      background: linear-gradient(135deg, var(--cyan), var(--blue));
+      box-shadow: 0 12px 26px rgba(54, 116, 255, 0.2);
     }
 
     .step-card h3 {
       margin: 0 0 10px;
       font-size: 20px;
-      line-height: 1.2;
+      line-height: 1.18;
+      font-weight: 800;
     }
 
     .step-card p {
       margin: 0;
       color: var(--muted);
       font-size: 15px;
-      line-height: 1.68;
+      line-height: 1.7;
     }
 
     .footer-card {
       padding: 28px 30px;
-      margin-top: 24px;
-      background: rgba(255, 255, 255, 0.72);
-      border: 1px solid rgba(255,255,255,0.75);
+      background: rgba(255,255,255,0.74);
+      border: 1px solid rgba(255,255,255,0.76);
       box-shadow: var(--shadow-soft);
     }
 
     .footer-top {
       display: flex;
-      gap: 22px;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 22px;
+      gap: 20px;
       flex-wrap: wrap;
+      margin-bottom: 22px;
     }
 
     .footer-note {
-      max-width: 680px;
-      font-size: 14px;
-      line-height: 1.75;
+      max-width: 700px;
       color: var(--muted);
+      font-size: 14px;
+      line-height: 1.74;
     }
 
     .requisites {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 16px;
-      margin-top: 12px;
     }
 
     .req-item {
       padding: 18px;
       border-radius: 20px;
-      background: rgba(255,255,255,0.84);
-      border: 1px solid rgba(120, 145, 174, 0.16);
-      box-shadow: 0 14px 28px rgba(21, 40, 73, 0.06);
+      background: rgba(255,255,255,0.88);
+      border: 1px solid rgba(112, 141, 173, 0.14);
+      box-shadow: 0 14px 28px rgba(17, 35, 62, 0.06);
     }
 
     .req-item span {
       display: block;
+      margin-bottom: 8px;
+      color: #6b8099;
       font-size: 12px;
       font-weight: 800;
-      color: #6d82a0;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      margin-bottom: 8px;
     }
 
     .req-item strong {
       display: block;
+      color: #15324f;
       font-size: 15px;
       line-height: 1.55;
-      color: #15324f;
       word-break: break-word;
     }
 
@@ -924,22 +1069,21 @@
       display: flex;
       justify-content: space-between;
       gap: 18px;
+      flex-wrap: wrap;
       margin-top: 18px;
       padding-top: 18px;
-      border-top: 1px solid rgba(120, 145, 174, 0.14);
+      border-top: 1px solid rgba(112, 141, 173, 0.12);
       color: var(--muted);
       font-size: 13px;
       line-height: 1.6;
-      flex-wrap: wrap;
     }
 
     svg {
       display: block;
     }
 
-    @media (max-width: 1180px) {
-      .hero,
-      .grid-2 {
+    @media (max-width: 1260px) {
+      .hero {
         grid-template-columns: 1fr;
       }
 
@@ -948,16 +1092,20 @@
         min-height: auto;
       }
 
-      .pricing-grid,
-      .steps,
+      .pricing-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .value-grid,
+      .steps-grid,
       .requisites {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
     }
 
-    @media (max-width: 820px) {
+    @media (max-width: 860px) {
       .page {
-        width: min(calc(100% - 20px), var(--max));
+        width: min(calc(100% - 20px), var(--max-width));
         padding-top: 14px;
       }
 
@@ -985,8 +1133,8 @@
       }
 
       .hero-logo-mark {
-        width: 72px;
-        height: 72px;
+        width: 78px;
+        height: 78px;
       }
 
       .hero-logo-mark span {
@@ -994,24 +1142,21 @@
       }
 
       .scenario-grid,
+      .panel-grid,
+      .value-grid,
       .pricing-grid,
-      .steps,
-      .audit-compare,
+      .steps-grid,
       .requisites {
         grid-template-columns: 1fr;
       }
 
-      .scenario-card {
-        min-height: auto;
+      .ai-core {
+        width: 232px;
+        height: 232px;
       }
 
-      .panel-orb {
-        width: 220px;
-        height: 220px;
-      }
-
-      .panel-orb span {
-        font-size: 58px;
+      .ai-core span {
+        font-size: 60px;
       }
 
       .footer-top,
@@ -1030,27 +1175,23 @@
         font-size: 12px;
       }
 
-      .logo {
+      .brand-mark {
         width: 48px;
         height: 48px;
         flex-basis: 48px;
       }
 
-      .topnav a {
-        width: 100%;
-        text-align: center;
-      }
-
+      .topnav a,
       .btn {
         width: 100%;
       }
 
-      .hero-text {
+      .hero-lead {
         font-size: 16px;
       }
 
       .price {
-        font-size: 36px;
+        font-size: 34px;
       }
     }
   </style>
@@ -1059,29 +1200,36 @@
   <div class="page">
     <header class="topbar">
       <a href="#top" class="brand">
-        <div class="logo"><span>Ai</span></div>
-        <div class="brand-text">
+        <div class="brand-mark"><span>Ai</span></div>
+        <div>
           <div class="brand-title">ОфферДоктор</div>
-          <div class="brand-subtitle">Аудит карточек товаров, Avito и лендингов</div>
+          <div class="brand-subtitle">Аудит карточек товара, объявлений Avito и лендингов</div>
         </div>
       </a>
 
       <nav class="topnav">
-        <a href="#formats">Форматы</a>
+        <a href="#formats">Что можно проверить</a>
         <a href="#prices">Тарифы</a>
-        <a href="#process">Как это работает</a>
+        <a href="#how">Как это работает</a>
         <a href="#requisites">Реквизиты</a>
-        <a href="#start" class="nav-cta">Открыть mini app</a>
+        <a
+          class="max-link"
+          href="https://max.ru/id1234567890_bot"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Открыть бота в MAX
+        </a>
       </nav>
     </header>
 
     <main>
       <section class="hero" id="top">
         <div class="hero-left">
-          <div class="hero-head">
-            <div class="badge">
-              <span class="badge-dot"></span>
-              Базовый аудит — бесплатно • Расширенный — по фиксированным тарифам
+          <div class="hero-content">
+            <div class="eyebrow">
+              <span class="eyebrow-dot"></span>
+              Быстрый разбор без лишних действий и сложной аналитики
             </div>
 
             <div class="hero-logo">
@@ -1090,35 +1238,42 @@
 
             <h1>ОфферДоктор</h1>
 
-            <p class="hero-text">
-              Умный аудит для роста продаж. Пользователь делает минимум действий:
-              <strong>вставляет ссылку или текст</strong>, получает
-              <strong>базовый бесплатный аудит</strong>, а дальше выбирает —
-              <strong>расширенный разбор</strong> или
-              <strong>аудит с конкурентами</strong>.
+            <p class="hero-lead">
+              Сервис, который быстро показывает,
+              <strong>почему карточка, объявление или лендинг недобирают продажи</strong>,
+              и подсказывает,
+              <strong>что исправить в первую очередь</strong>.
+              Без долгого онбординга, без пустых советов и без необходимости разбираться в сложной аналитике.
             </p>
 
             <div class="hero-actions">
-              <a href="#prices" class="btn btn-primary">Посмотреть тарифы</a>
-              <a href="#formats" class="btn btn-secondary">Что можно проверить</a>
+              <a
+                class="btn btn-primary"
+                href="https://max.ru/id1234567890_bot"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Перейти в бота MAX
+              </a>
+              <a class="btn btn-secondary" href="#prices">Посмотреть тарифы</a>
             </div>
           </div>
 
           <div class="scenario-grid" id="formats">
             <article class="scenario-card">
               <div class="scenario-icon" aria-hidden="true">
-                <svg width="34" height="34" viewBox="0 0 24 24" fill="none">
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="none">
                   <path d="M4 8.5L8.7 5H16.2L20 8.5V18A2 2 0 0 1 18 20H6A2 2 0 0 1 4 18V8.5Z" stroke="#4D6480" stroke-width="1.8" stroke-linejoin="round"/>
                   <path d="M8 9H16" stroke="#4D6480" stroke-width="1.8" stroke-linecap="round"/>
                 </svg>
               </div>
               <h3>Карточка товара</h3>
-              <p>Ozon, Wildberries, Яндекс Маркет. Отдельные сценарии под площадки, текст и платный визуальный слой.</p>
+              <p>Ozon, Wildberries и Яндекс Маркет. Сервис находит слабые места в тексте, подаче и структуре карточки.</p>
             </article>
 
             <article class="scenario-card">
               <div class="scenario-icon" aria-hidden="true">
-                <svg width="34" height="34" viewBox="0 0 24 24" fill="none">
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="none">
                   <circle cx="6" cy="7" r="3" fill="#24B6D1"/>
                   <circle cx="17" cy="6" r="3" fill="#F55252"/>
                   <circle cx="17" cy="17" r="3" fill="#FDBA2C"/>
@@ -1126,12 +1281,12 @@
                 </svg>
               </div>
               <h3>Объявление Avito</h3>
-              <p>Анализ заголовка, первых строк, логики выгоды, доверия, призыва к действию и общего впечатления.</p>
+              <p>Показывает, почему объявление не цепляет с первых строк, где проседает доверие и что лучше переписать.</p>
             </article>
 
             <article class="scenario-card">
               <div class="scenario-icon" aria-hidden="true">
-                <svg width="34" height="34" viewBox="0 0 24 24" fill="none">
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="none">
                   <rect x="3" y="5" width="18" height="14" rx="2.5" stroke="#4D6480" stroke-width="1.8"/>
                   <path d="M3 9H21" stroke="#4D6480" stroke-width="1.8" stroke-linecap="round"/>
                   <path d="M8 13H11" stroke="#4D6480" stroke-width="1.8" stroke-linecap="round"/>
@@ -1139,26 +1294,54 @@
                 </svg>
               </div>
               <h3>Лендинг</h3>
-              <p>Первый экран, оффер, CTA, структура блоков, логика доверия и главные причины потери конверсии.</p>
+              <p>Разбирает первый экран, оффер, CTA и логику блоков, чтобы стало ясно, где лендинг теряет заявки.</p>
             </article>
           </div>
         </div>
 
         <aside class="hero-right">
-          <div class="hero-right-inner">
-            <div>
-              <div class="panel-chip">Один визуальный язык • один понятный продукт</div>
-              <div class="panel-orb"><span>AI</span></div>
-              <h2 class="panel-title">Три понятных сценария вместо абстрактного «аудита всего»</h2>
+          <div class="hero-panel">
+            <div class="panel-top">
+              <div class="panel-badge">Понятный результат вместо общего "AI-мнения"</div>
+
+              <div class="ai-core">
+                <div class="ai-core-ring"></div>
+                <div class="ai-core-ring delay"></div>
+                <span>AI</span>
+              </div>
+
+              <h2 class="panel-title">Что человек увидит после проверки</h2>
               <p class="panel-subtitle">
-                Лендинг не растягивается на ультрашироком экране, а фон продолжает жить по краям
-                мягкими световыми полями. Так сайт выглядит собранно и дорого.
+                Не абстрактные слова и не "красивый отчет ради отчета", а конкретный разбор:
+                где вы теряете внимание, доверие и продажи.
               </p>
             </div>
 
-            <div class="feature-stack">
-              <div class="feature-item">
-                <div class="feature-icon">
+            <div class="panel-grid">
+              <article class="panel-card">
+                <h4>Главная проблема</h4>
+                <p>Сервис сразу показывает ключевой тормоз: слабый оффер, неудачный заголовок, неясная выгода или перегруженная подача.</p>
+              </article>
+
+              <article class="panel-card">
+                <h4>Что мешает продавать</h4>
+                <p>Вы увидите 2–3 главных слабых места, которые сильнее всего бьют по отклику или конверсии.</p>
+              </article>
+
+              <article class="panel-card">
+                <h4>Что исправить первым</h4>
+                <p>Вместо длинного списка "всего на свете" сервис дает приоритет: с чего лучше начать, чтобы быстрее увидеть эффект.</p>
+              </article>
+
+              <article class="panel-card">
+                <h4>Следующий шаг</h4>
+                <p>После бесплатного разбора можно перейти к более глубокому аудиту или выбрать вариант со сравнением конкурентов.</p>
+              </article>
+            </div>
+
+            <div class="panel-list">
+              <div class="panel-list-item">
+                <div class="panel-list-icon">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                     <rect x="4" y="5" width="16" height="14" rx="2.5" stroke="#C6F4FF" stroke-width="1.8"/>
                     <circle cx="9" cy="10" r="1.8" fill="#C6F4FF"/>
@@ -1166,13 +1349,13 @@
                   </svg>
                 </div>
                 <div>
-                  <strong>Платный визуальный слой для карточек</strong>
-                  <span>Фото, видео и rich content анализируем именно в расширенном контуре.</span>
+                  <strong>Для карточек — платный визуальный слой</strong>
+                  <span>Фото, видео и rich content анализируются в расширенном контуре, а не смешиваются с бесплатным разбором.</span>
                 </div>
               </div>
 
-              <div class="feature-item">
-                <div class="feature-icon">
+              <div class="panel-list-item">
+                <div class="panel-list-icon">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                     <path d="M5 18H19" stroke="#C6F4FF" stroke-width="1.8" stroke-linecap="round"/>
                     <path d="M7 15V11" stroke="#C6F4FF" stroke-width="1.8" stroke-linecap="round"/>
@@ -1181,13 +1364,13 @@
                   </svg>
                 </div>
                 <div>
-                  <strong>Тарифная лестница без путаницы</strong>
-                  <span>Базовый аудит бесплатно, затем расширенный аудит и старший тариф с конкурентами.</span>
+                  <strong>Тарифы без путаницы</strong>
+                  <span>Базовый аудит — бесплатно. Дальше — расширенный аудит или вариант со сравнением конкурентов.</span>
                 </div>
               </div>
 
-              <div class="feature-item">
-                <div class="feature-icon">
+              <div class="panel-list-item">
+                <div class="panel-list-icon">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                     <path d="M7 4.8H15.5L19 8.3V18A2 2 0 0 1 17 20H7A2 2 0 0 1 5 18V6.8A2 2 0 0 1 7 4.8Z" stroke="#C6F4FF" stroke-width="1.8" stroke-linejoin="round"/>
                     <path d="M9 11H15" stroke="#C6F4FF" stroke-width="1.8" stroke-linecap="round"/>
@@ -1195,8 +1378,8 @@
                   </svg>
                 </div>
                 <div>
-                  <strong>Жесткие сценарии вместо общих советов</strong>
-                  <span>Под каждую площадку и формат — отдельный prompt pack и отдельная логика результата.</span>
+                  <strong>Нормальный человеческий язык</strong>
+                  <span>Без технической мишуры. Пользователь сразу понимает, что именно сервис нашел и почему это важно.</span>
                 </div>
               </div>
             </div>
@@ -1204,129 +1387,185 @@
         </aside>
       </section>
 
-      <section class="section-card" id="what-inside">
-        <p class="section-eyebrow">Что получает пользователь</p>
-        <h2 class="section-title">Бесплатный аудит должен быть ценным, а платный — заметно сильнее</h2>
+      <section class="section-card">
+        <p class="section-eyebrow">Почему это удобно</p>
+        <h2 class="section-title">Сервис устроен так, чтобы человеку было легко начать</h2>
         <p class="section-description">
-          Базовый аудит не должен быть пустой отпиской. Он дает главную проблему, несколько слабых мест и быстрые рекомендации.
-          Расширенный аудит углубляет результат, а старший тариф добавляет слой сравнения с конкурентами.
+          Не нужно заранее разбираться в метриках, воронках, SEO-терминах и аналитике конкурентов.
+          Достаточно вставить ссылку или текст — и сервис покажет, где предложение уже сейчас теряет деньги.
         </p>
 
-        <div class="audit-compare">
-          <div class="audit-box audit-box--free">
-            <h3>Базовый аудит — бесплатно</h3>
-            <ul>
-              <li>главная проблема в оффере или карточке;</li>
-              <li>2–3 слабых места;</li>
-              <li>быстрые рекомендации без воды;</li>
-              <li>понятный переход к платному уровню.</li>
-            </ul>
-          </div>
+        <div class="value-grid">
+          <article class="value-card">
+            <div class="value-icon" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                <path d="M12 4V12L17 15" stroke="#4D6480" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="12" cy="12" r="8" stroke="#4D6480" stroke-width="1.8"/>
+              </svg>
+            </div>
+            <h3>Быстрый вход</h3>
+            <p>Один понятный сценарий, минимум полей и быстрый старт без длинного онбординга.</p>
+          </article>
 
-          <div class="audit-box audit-box--paid">
-            <h3>Расширенный аудит и старший тариф</h3>
-            <ul>
-              <li>глубокий разбор текста и структуры;</li>
-              <li>для карточек — анализ фото, видео и rich content;</li>
-              <li>улучшенные формулировки и приоритет правок;</li>
-              <li>в старшем тарифе — автоматическое сравнение с конкурентами.</li>
-            </ul>
-          </div>
+          <article class="value-card">
+            <div class="value-icon" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                <path d="M4.5 13.5L9 18L19.5 7.5" stroke="#4D6480" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <h3>Понятный результат</h3>
+            <p>Вместо десятков пунктов "на всякий случай" сервис выделяет главное и помогает не распыляться.</p>
+          </article>
+
+          <article class="value-card">
+            <div class="value-icon" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                <path d="M6 18L18 6" stroke="#4D6480" stroke-width="1.8" stroke-linecap="round"/>
+                <path d="M8 6H18V16" stroke="#4D6480" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <h3>Рост от конкретных правок</h3>
+            <p>Сервис подсказывает не просто "что плохо", а что можно поправить уже сейчас, чтобы усилить отклик.</p>
+          </article>
         </div>
       </section>
 
-      <section class="section-card" id="prices" style="margin-top:24px;">
+      <section class="section-card" id="prices">
         <p class="section-eyebrow">Тарифы</p>
-        <h2 class="section-title">Понятные цены по сценариям</h2>
+        <h2 class="section-title">Понятная цена по каждому формату</h2>
         <p class="section-description">
-          На старте продукт продается не подпиской, а понятными разовыми аудитами. Цена зависит от сложности сценария.
+          На старте продукт продается как разовые аудиты, а не как подписка.
+          Сначала пользователь получает бесплатный базовый разбор, а дальше сам выбирает глубину.
         </p>
 
         <div class="pricing-grid">
           <article class="pricing-card">
-            <div class="pricing-tag">Avito</div>
-            <h3>Объявление Avito</h3>
-            <p>Быстрый разбор объявления, заголовка, первых строк и логики отклика.</p>
+            <div class="pricing-tag">Бесплатно</div>
+            <h3>Базовый аудит</h3>
+            <p>Быстрый полезный разбор, который показывает главную проблему и несколько слабых мест.</p>
             <div class="price-line">
-              <div class="price">149 ₽</div>
-              <div class="price-note">расширенный аудит</div>
+              <div class="price">0 ₽</div>
+              <div class="price-note">для первого касания</div>
             </div>
             <ul class="pricing-list">
-              <li>базовый аудит — бесплатно</li>
-              <li>заголовок, описание, выгоды, доверие</li>
-              <li>что переписать в первую очередь</li>
-              <li>новые сильные формулировки</li>
+              <li>главная причина просадки</li>
+              <li>2–3 слабых места</li>
+              <li>короткие рекомендации</li>
+              <li>понятный следующий шаг</li>
             </ul>
-            <a href="#start" class="btn btn-secondary">Открыть сценарий Avito</a>
+            <a
+              class="btn btn-secondary"
+              href="https://max.ru/id1234567890_bot"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Попробовать бесплатно
+            </a>
+          </article>
+
+          <article class="pricing-card">
+            <div class="pricing-tag">Avito</div>
+            <h3>Расширенный аудит Avito</h3>
+            <p>Для тех, кто хочет понять, почему объявление не цепляет и как усилить подачу.</p>
+            <div class="price-line">
+              <div class="price">149 ₽</div>
+              <div class="price-note">за один аудит</div>
+            </div>
+            <ul class="pricing-list">
+              <li>заголовок и первые строки</li>
+              <li>выгоды, доверие и отклик</li>
+              <li>что переписать в первую очередь</li>
+            </ul>
+            <a
+              class="btn btn-secondary"
+              href="https://max.ru/id1234567890_bot"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Проверить объявление
+            </a>
           </article>
 
           <article class="pricing-card">
             <div class="pricing-tag">Лендинг</div>
-            <h3>Лендинг</h3>
-            <p>Разбор первого экрана, оффера, CTA и структуры блоков без «общих советов».</p>
+            <h3>Расширенный аудит лендинга</h3>
+            <p>Для тех, кто хочет быстро увидеть, где страница теряет внимание, доверие и заявки.</p>
             <div class="price-line">
               <div class="price">199 ₽</div>
-              <div class="price-note">расширенный аудит</div>
+              <div class="price-note">за один аудит</div>
             </div>
             <ul class="pricing-list">
-              <li>базовый аудит — бесплатно</li>
-              <li>анализ оффера, CTA и доверия</li>
+              <li>первый экран и оффер</li>
+              <li>CTA и логика блоков</li>
               <li>главные причины потери конверсии</li>
-              <li>что усилить в первую очередь</li>
             </ul>
-            <a href="#start" class="btn btn-secondary">Открыть сценарий лендинга</a>
+            <a
+              class="btn btn-secondary"
+              href="https://max.ru/id1234567890_bot"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Проверить лендинг
+            </a>
           </article>
 
           <article class="pricing-card featured">
             <div class="pricing-tag">Карточка товара</div>
-            <h3>Карточка товара</h3>
-            <p>Ozon, Wildberries, Яндекс Маркет. Отдельные сценарии по площадкам и старший тариф с конкурентами.</p>
+            <h3>Расширенный аудит карточки</h3>
+            <p>Для Ozon, Wildberries и Яндекс Маркета. Отдельные сценарии по площадкам и платный визуальный слой.</p>
             <div class="price-line">
               <div class="price">249 ₽</div>
-              <div class="price-note">расширенный аудит</div>
+              <div class="price-note">за один аудит</div>
             </div>
             <ul class="pricing-list">
-              <li>базовый аудит — бесплатно</li>
-              <li>анализ названия, описания, выгод и характеристик</li>
-              <li>в платном слое — фото, видео и rich content</li>
-              <li>старший тариф «Аудит + конкуренты» — 299 ₽</li>
+              <li>название, описание и выгоды</li>
+              <li>что мешает карточке продавать лучше</li>
+              <li>анализ фото, видео и rich content</li>
+              <li>вариант "аудит + конкуренты" — 299 ₽</li>
             </ul>
-            <a href="#start" class="btn btn-primary">Открыть сценарий карточки</a>
+            <a
+              class="btn btn-primary"
+              href="https://max.ru/id1234567890_bot"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Проверить карточку
+            </a>
           </article>
         </div>
       </section>
 
-      <section class="section-card" id="process" style="margin-top:24px;">
+      <section class="section-card" id="how">
         <p class="section-eyebrow">Как это работает</p>
-        <h2 class="section-title">Минимум действий для пользователя</h2>
+        <h2 class="section-title">Четыре простых шага без перегруза</h2>
         <p class="section-description">
-          Вся логика строится вокруг быстрого и ленивого пользовательского сценария:
-          человек не должен разбираться в сложных настройках и аналитике.
+          Человеку не нужно самому искать конкурентов, собирать отчеты и разбираться в куче параметров.
+          Всё строится вокруг короткого и понятного сценария.
         </p>
 
-        <div class="steps">
+        <div class="steps-grid">
           <article class="step-card">
             <div class="step-number">01</div>
-            <h3>Выбрать формат</h3>
-            <p>Карточка товара, Avito или лендинг — только понятные коммерческие сценарии.</p>
+            <h3>Выбираете формат</h3>
+            <p>Карточка товара, объявление Avito или лендинг — только те сценарии, где сервис реально полезен.</p>
           </article>
 
           <article class="step-card">
             <div class="step-number">02</div>
-            <h3>Вставить ссылку или текст</h3>
-            <p>Один вход — без сложного кабинета и без длинного онбординга на первом касании.</p>
+            <h3>Вставляете ссылку или текст</h3>
+            <p>Без сложной регистрации и без длинных форм на первом касании.</p>
           </article>
 
           <article class="step-card">
             <div class="step-number">03</div>
-            <h3>Получить базовый аудит</h3>
-            <p>Бесплатно увидеть главную проблему, несколько слабых мест и быстрые правки.</p>
+            <h3>Получаете бесплатный разбор</h3>
+            <p>Сразу видно, где именно предложение теряет силу и что нужно усилить.</p>
           </article>
 
           <article class="step-card">
             <div class="step-number">04</div>
-            <h3>Выбрать глубину разбора</h3>
-            <p>Расширенный аудит или старший тариф с конкурентами — без путаницы в названиях.</p>
+            <h3>Выбираете глубину</h3>
+            <p>Можно остановиться на бесплатном разборе или перейти к более глубокому аудиту.</p>
           </article>
         </div>
       </section>
@@ -1334,53 +1573,32 @@
 
     <footer class="footer-card" id="requisites">
       <div class="footer-top">
-        <div>
-          <div class="brand" style="pointer-events:none;">
-            <div class="logo"><span>Ai</span></div>
-            <div class="brand-text">
-              <div class="brand-title">ОфферДоктор</div>
-              <div class="brand-subtitle">Разбор УТП для услуг, экспертов и карточек товаров</div>
-            </div>
+        <div class="brand" style="pointer-events:none;">
+          <div class="brand-mark"><span>Ai</span></div>
+          <div>
+            <div class="brand-title">ОфферДоктор</div>
+            <div class="brand-subtitle">Сервис для быстрого аудита упаковки предложения</div>
           </div>
         </div>
 
         <div class="footer-note">
-          Сервис быстрого аудита карточек товаров, объявлений Avito и лендингов.
-          Базовый аудит бесплатно, расширенный — по фиксированным тарифам.
+          В подвале оставлен блок реквизитов без адреса и телефона. Здесь можно держать только юридическую информацию,
+          email и ссылки на документы.
         </div>
       </div>
 
       <div class="requisites">
         <div class="req-item">
           <span>Наименование</span>
-          <strong>ИП Бояринцев Е.А.</strong>
+          <strong>ООО «ОфферДоктор»</strong>
         </div>
         <div class="req-item">
           <span>ИНН</span>
-          <strong>771812324702</strong>
+          <strong>0000000000</strong>
         </div>
         <div class="req-item">
-          <span>ОГРНИП</span>
-          <strong>325774600008835</strong>
-        </div>
-        <div class="req-item">
-          <span>Банк</span>
-          <strong>ООО «Банк Точка»</strong>
-        </div>
-      </div>
-
-      <div class="requisites" style="margin-top:16px;">
-        <div class="req-item">
-          <span>Расчетный счет</span>
-          <strong>40802810420000529109</strong>
-        </div>
-        <div class="req-item">
-          <span>БИК</span>
-          <strong>044525104</strong>
-        </div>
-        <div class="req-item">
-          <span>Корреспондентский счет</span>
-          <strong>30101810745374525104</strong>
+          <span>ОГРН</span>
+          <strong>0000000000000</strong>
         </div>
         <div class="req-item">
           <span>Email</span>
@@ -1389,8 +1607,12 @@
       </div>
 
       <div class="footer-bottom">
-        <div>© 2026 ОфферДоктор. ИП Бояринцев Е.А. · ИНН 771812324702 · ОГРНИП 325774600008835</div>
-        <div>Все права защищены.</div>
+        <div>© 2026 ОфферДоктор. Все права защищены.</div>
+        <div>
+          <a href="https://max.ru/id1234567890_bot" target="_blank" rel="noopener noreferrer">
+            Перейти в бота MAX
+          </a>
+        </div>
       </div>
     </footer>
   </div>
