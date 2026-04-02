@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Возврат и отказ от услуги — ОфферДоктор</title>
+  <style>
+    :root {
+      --bg: #f4f8fd;
+      --surface: rgba(255,255,255,0.80);
+      --text: #10243e;
+      --muted: #61748d;
+      --line: rgba(114, 142, 174, 0.18);
+      --cyan: #1ec4d9;
+      --blue: #4f75ff;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background: linear-gradient(180deg, #f9fbff 0%, #eef4fb 48%, #edf3fa 100%);
+      min-height: 100vh;
+    }
+    .page {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 32px 20px 60px;
+    }
+    .topbar {
+      display: flex; align-items: center; gap: 14px;
+      margin-bottom: 32px; padding-bottom: 20px;
+      border-bottom: 1px solid var(--line);
+    }
+    .brand-mark {
+      width: 48px; height: 48px; border-radius: 14px;
+      display: grid; place-items: center;
+      background: linear-gradient(145deg, rgba(30, 196, 217, 1), rgba(79, 117, 255, 1));
+      box-shadow: 0 12px 28px rgba(54, 116, 255, 0.2);
+    }
+    .brand-mark span { font-size: 18px; font-weight: 900; color: #fff; text-transform: uppercase; }
+    .brand-title { font-size: 20px; font-weight: 900; color: #102742; }
+    .brand-subtitle { font-size: 13px; color: var(--muted); }
+    h1 {
+      font-size: clamp(28px, 4vw, 38px);
+      line-height: 1.1; font-weight: 900; letter-spacing: -0.03em;
+      margin: 0 0 8px;
+    }
+    .doc-date { color: var(--muted); font-size: 14px; margin-bottom: 28px; }
+    h2 {
+      font-size: 20px; font-weight: 800; margin: 32px 0 12px;
+      padding-top: 16px; border-top: 1px solid var(--line);
+    }
+    h2:first-of-type { border-top: none; padding-top: 0; }
+    p { font-size: 15px; line-height: 1.75; margin: 0 0 12px; }
+    ul, ol { margin: 0 0 16px; padding-left: 24px; }
+    li { font-size: 15px; line-height: 1.75; margin-bottom: 6px; }
+    .highlight {
+      padding: 16px 20px; border-radius: 16px;
+      background: linear-gradient(135deg, rgba(30, 196, 217, 0.06), rgba(79, 117, 255, 0.06));
+      border: 1px solid rgba(114, 142, 174, 0.15);
+      margin: 16px 0 20px;
+      font-size: 15px; line-height: 1.7;
+    }
+    .contact-box {
+      padding: 20px; border-radius: 16px;
+      background: rgba(255,255,255,0.88);
+      border: 1px solid rgba(114, 142, 174, 0.16);
+      box-shadow: 0 14px 28px rgba(17, 35, 62, 0.06);
+      margin: 16px 0 20px;
+    }
+    .contact-box p { margin-bottom: 4px; }
+    .contact-box a { color: var(--blue); font-weight: 700; text-decoration: none; }
+    .contact-box a:hover { text-decoration: underline; }
+    .nav-links {
+      display: flex; gap: 16px; margin-top: 40px; padding-top: 20px;
+      border-top: 1px solid var(--line);
+    }
+    .nav-links a {
+      color: var(--blue); font-size: 14px; font-weight: 700; text-decoration: none;
+    }
+    .nav-links a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="topbar">
+      <div class="brand-mark"><span>Ai</span></div>
+      <div>
+        <div class="brand-title">ОфферДоктор</div>
+        <div class="brand-subtitle">Возврат и отказ от услуги</div>
+      </div>
+    </div>
+
+    <h1>Возврат и отказ от услуги</h1>
+    <div class="doc-date">Дата публикации: 02 апреля 2026 г.</div>
+
+    <h2>1. Характер услуги</h2>
+    <p>Сервис «ОфферДоктор» предоставляет услуги по аудиту коммерческих предложений с использованием искусственного интеллекта. Результат услуги — текстовый анализ, который формируется мгновенно после оплаты и предоставляется через интерфейс Сервиса.</p>
+
+    <h2>2. Бесплатный аудит</h2>
+    <p>Базовый аудит предоставляется бесплатно и не требует оплаты. Поскольку услуга бесплатная, возврат денежных средств по ней не применим.</p>
+
+    <h2>3. Платные услуги: основания для возврата</h2>
+    <p>Учитывая, что услуга носит цифровой характер и оказывается мгновенно, возврат денежных средств возможен в следующих случаях:</p>
+    <ul>
+      <li>услуга не была оказана по технической вине Исполнителя (ошибка системы, недоступность Сервиса);</li>
+      <li>результат не был предоставлен Заказчику после оплаты;</li>
+      <li>произошло списание средств без фактического оказания услуги.</li>
+    </ul>
+
+    <div class="highlight">
+      <strong>Важно:</strong> если услуга была оказана и результат предоставлен, возврат денежных средств не производится, так как результат является цифровым продуктом мгновенной доставки.
+    </div>
+
+    <h2>4. Порядок обращения за возвратом</h2>
+    <p>Для обращения за возвратом денежных средств необходимо:</p>
+    <ol>
+      <li>Написать на электронную почту Исполнителя с темой письма «Возврат средств — ОфферДоктор».</li>
+      <li>Указать в письме: дату оплаты, сумму, способ оплаты и причину обращения.</li>
+      <li>Приложить подтверждение оплаты (скриншот или чек), если возможно.</li>
+    </ol>
+    <p>Исполнитель рассмотрит обращение в течение 10 рабочих дней и направит ответ на указанный в обращении адрес электронной почты.</p>
+
+    <h2>5. Сроки возврата</h2>
+    <p>При удовлетворении обращения возврат денежных средств производится в течение 10 рабочих дней с момента принятия решения. Срок зачисления средств зависит от способа оплаты и может составлять до 30 банковских дней.</p>
+
+    <h2>6. Отказ от услуги до оказания</h2>
+    <p>Заказчик вправе отказаться от услуги до её фактического оказания (до получения результата аудита). В этом случае денежные средства возвращаются в полном объёме в порядке, описанном в разделе 4.</p>
+    <p>После того как результат аудита предоставлен Заказчику, услуга считается оказанной.</p>
+
+    <h2>7. Контакты для обращений</h2>
+    <div class="contact-box">
+      <p>Индивидуальный Предприниматель Бояринцев Евгений Анатольевич</p>
+      <p>ИНН: 771812324702</p>
+      <p>Email для обращений: <a href="mailto:refund@offerdoctor.ru">refund@offerdoctor.ru</a></p>
+    </div>
+
+    <div class="nav-links">
+      <a href="index.html">← На главную</a>
+      <a href="offer.html">Публичная оферта →</a>
+    </div>
+  </div>
+</body>
+</html>
