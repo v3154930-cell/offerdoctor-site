@@ -99,12 +99,6 @@
       100% { transform: scale(1.1); opacity: 0; }
     }
 
-    @keyframes signalMove {
-      0% { stroke-dashoffset: 160; opacity: 0.15; }
-      40% { opacity: 1; }
-      100% { stroke-dashoffset: 0; opacity: 0.2; }
-    }
-
     a {
       color: inherit;
       text-decoration: none;
@@ -408,6 +402,10 @@
       box-shadow: 0 18px 42px rgba(17, 35, 62, 0.10);
       transition: transform 0.25s ease, box-shadow 0.25s ease;
       min-height: 214px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
     }
 
     .scenario-card:hover {
@@ -504,89 +502,6 @@
       background:
         radial-gradient(circle at 68% 38%, rgba(115, 237, 255, 0.18), transparent 0 22%),
         linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0));
-    }
-
-    .processor-lines {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      opacity: 0.95;
-    }
-
-    .processor-lines path {
-      fill: none;
-      stroke: rgba(115, 237, 255, 0.92);
-      stroke-width: 2.8;
-      stroke-linecap: round;
-      stroke-dasharray: 20 140;
-      animation: signalMove 3.2s linear infinite;
-      filter: drop-shadow(0 0 10px rgba(115, 237, 255, 0.55));
-    }
-
-    .processor-lines path:nth-child(2) { animation-delay: .4s; }
-    .processor-lines path:nth-child(3) { animation-delay: .8s; }
-    .processor-lines path:nth-child(4) { animation-delay: 1.2s; }
-    .processor-lines path:nth-child(5) { animation-delay: 1.6s; }
-
-    .ai-core {
-      position: absolute;
-      right: 26px;
-      top: 22px;
-      width: 250px;
-      height: 250px;
-      border-radius: 34px;
-      display: grid;
-      place-items: center;
-      background:
-        radial-gradient(circle at 50% 20%, rgba(255,255,255,0.92), rgba(255,255,255,0.08) 42%, transparent 64%),
-        linear-gradient(145deg, rgba(30, 196, 217, 0.96), rgba(79, 117, 255, 0.96));
-      box-shadow:
-        0 28px 70px rgba(35, 110, 255, 0.28),
-        0 0 0 16px rgba(115, 237, 255, 0.05);
-      transform: rotate(18deg);
-    }
-
-    .ai-core::before {
-      content: "";
-      position: absolute;
-      inset: 16px;
-      border-radius: 24px;
-      border: 2px solid rgba(255,255,255,0.72);
-    }
-
-    .ai-core::after {
-      content: "";
-      position: absolute;
-      inset: -12px;
-      border-radius: 42px;
-      border: 1px solid rgba(160, 231, 255, 0.16);
-    }
-
-    .ai-core .ring,
-    .ai-core .ring.delay {
-      position: absolute;
-      inset: -18px;
-      border-radius: 42px;
-      border: 1px solid rgba(160, 231, 255, 0.22);
-      animation: pulseRing 2.8s ease-out infinite;
-    }
-
-    .ai-core .ring.delay {
-      animation-delay: 1.2s;
-    }
-
-    .ai-core span {
-      position: relative;
-      z-index: 2;
-      font-size: 82px;
-      line-height: 1;
-      font-weight: 900;
-      letter-spacing: -0.06em;
-      color: #fff;
-      text-transform: uppercase;
-      text-shadow: 0 10px 28px rgba(19, 65, 136, 0.22);
-      transform: rotate(-18deg);
     }
 
     .panel-title {
@@ -754,7 +669,7 @@
       box-shadow: var(--shadow-soft);
       display: flex;
       flex-direction: column;
-      min-height: 100%;
+      min-height: 520px;
     }
 
     .pricing-card.featured {
@@ -965,6 +880,407 @@
       display: block;
     }
 
+    /* ========= MOTHERBOARD ANIMATION ========= */
+    .ai-animation {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      min-height: inherit;
+      background: #0a0f1a;
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 0 30px 50px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.05);
+      isolation: isolate;
+    }
+
+    .motherboard-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      background: linear-gradient(135deg, #0b1428 0%, #060c18 100%);
+    }
+
+    .pcb-traces {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image:
+        repeating-linear-gradient(90deg,
+          rgba(0, 180, 210, 0.15) 0px,
+          rgba(0, 180, 210, 0.15) 2px,
+          transparent 2px,
+          transparent 30px),
+        repeating-linear-gradient(0deg,
+          rgba(0, 180, 210, 0.12) 0px,
+          rgba(0, 180, 210, 0.12) 1px,
+          transparent 1px,
+          transparent 25px);
+      pointer-events: none;
+    }
+
+    .curved-traces {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+    .curved-traces svg {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      opacity: 0.4;
+    }
+    .curved-traces path {
+      fill: none;
+      stroke: rgba(0, 200, 230, 0.25);
+      stroke-width: 1.5;
+    }
+
+    .contact-pads {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+    .pad {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: rgba(0, 200, 230, 0.4);
+      border-radius: 2px;
+      box-shadow: 0 0 4px cyan;
+    }
+    .slot {
+      position: absolute;
+      background: linear-gradient(90deg, rgba(0, 160, 200, 0.2), rgba(0, 200, 230, 0.4), rgba(0, 160, 200, 0.2));
+      border-radius: 4px;
+      border: 0.5px solid rgba(0, 210, 255, 0.3);
+    }
+    .chip-on-board {
+      position: absolute;
+      background: rgba(0, 25, 45, 0.7);
+      border: 1px solid rgba(0, 180, 210, 0.5);
+      border-radius: 6px;
+      backdrop-filter: blur(2px);
+    }
+    .chip-on-board::before {
+      content: '';
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      right: 3px;
+      bottom: 3px;
+      border: 0.5px dashed rgba(0, 200, 230, 0.4);
+      border-radius: 3px;
+    }
+
+    .static-noise {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noise)" opacity="0.35"/></svg>');
+      background-repeat: repeat;
+      background-size: 200px 150px;
+      opacity: 0.08;
+      pointer-events: none;
+      z-index: 2;
+      mix-blend-mode: overlay;
+      animation: subtleNoiseShift 6s steps(3) infinite;
+    }
+
+    @keyframes subtleNoiseShift {
+      0% { background-position: 0 0; opacity: 0.06; }
+      50% { background-position: 40px 20px; opacity: 0.14; }
+      100% { background-position: 0 0; opacity: 0.06; }
+    }
+
+    .glitch-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 200, 255, 0) 0px,
+        rgba(0, 210, 255, 0.05) 2px,
+        rgba(0, 0, 0, 0.1) 4px,
+        transparent 6px
+      );
+      pointer-events: none;
+      z-index: 3;
+      animation: glitchScan 8s infinite linear;
+    }
+
+    @keyframes glitchScan {
+      0% { transform: translateY(-100%); opacity: 0; }
+      10% { opacity: 0.5; }
+      20% { opacity: 0.15; }
+      100% { transform: translateY(100%); opacity: 0; }
+    }
+
+    .interference {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 70% 20%, rgba(0, 180, 200, 0.12), transparent 70%);
+      mix-blend-mode: screen;
+      pointer-events: none;
+      z-index: 2;
+      animation: pulseInterference 3.5s ease-in-out infinite alternate;
+    }
+
+    @keyframes pulseInterference {
+      0% { opacity: 0.15; transform: scale(1);}
+      100% { opacity: 0.45; transform: scale(1.08);}
+    }
+
+    .cpu-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 260px;
+      height: 260px;
+      z-index: 20;
+      pointer-events: none;
+    }
+
+    .cpu-core {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #0a1a2a 0%, #06121e 100%);
+      border-radius: 12px;
+      border: 2px solid rgba(0, 230, 255, 0.5);
+      box-shadow: 0 0 30px rgba(0, 200, 255, 0.2), inset 0 0 20px rgba(0, 200, 255, 0.05);
+      overflow: hidden;
+    }
+
+    .die {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      right: 20px;
+      bottom: 20px;
+      background: rgba(0, 30, 50, 0.6);
+      border-radius: 8px;
+      border: 1px solid rgba(0, 210, 255, 0.3);
+    }
+
+    .ai-text-cpu {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+      font-size: 64px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #ffffff, #00f2fe, #4efff5);
+      background-size: 200% 200%;
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      letter-spacing: 6px;
+      animation: textGradient 3s ease infinite;
+      text-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
+      z-index: 2;
+    }
+
+    @keyframes textGradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .cpu-traces {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      right: 20px;
+      bottom: 20px;
+      pointer-events: none;
+    }
+    .cpu-traces svg {
+      width: 100%;
+      height: 100%;
+    }
+    .cpu-traces path {
+      fill: none;
+      stroke: rgba(0, 200, 230, 0.3);
+      stroke-width: 1;
+    }
+
+    .pins {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+    .pin {
+      position: absolute;
+      background: linear-gradient(135deg, #c0c0c0, #a0a0a0, #c0c0c0);
+      width: 4px;
+      height: 14px;
+      border-radius: 1px;
+      box-shadow: 0 0 3px rgba(0, 200, 255, 0.5);
+    }
+    .pin.top { top: -10px; transform: translateX(-50%); }
+    .pin.bottom { bottom: -10px; transform: translateX(-50%); }
+    .pin.left { left: -10px; transform: translateY(-50%); width: 14px; height: 4px; }
+    .pin.right { right: -10px; transform: translateY(-50%); width: 14px; height: 4px; }
+
+    .cpu-glow {
+      position: absolute;
+      inset: 0;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(0, 240, 255, 0.15), rgba(0, 200, 255, 0), rgba(0, 240, 255, 0.1));
+      animation: cpuPulse 3s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes cpuPulse {
+      0% { opacity: 0.3; }
+      50% { opacity: 0.7; }
+      100% { opacity: 0.3; }
+    }
+
+    .cpu-glitch {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 12px;
+      background: repeating-linear-gradient(90deg, transparent, transparent 10px, rgba(0, 255, 255, 0.15) 12px, transparent 14px);
+      opacity: 0;
+      animation: cpuGlitchAnim 6s infinite;
+      pointer-events: none;
+    }
+
+    @keyframes cpuGlitchAnim {
+      0%, 85%, 92%, 100% { opacity: 0; transform: translateX(0); }
+      87% { opacity: 0.6; transform: translateX(2px); }
+      89% { opacity: 0.3; transform: translateX(-1px); }
+      90% { opacity: 0.7; transform: translateX(1px); }
+      91% { opacity: 0; transform: translateX(0); }
+    }
+
+    .neuron {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      opacity: 0.95;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .trail {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9;
+      opacity: 0;
+      animation: fadeTrail 1.2s ease-out forwards;
+    }
+
+    @keyframes fadeTrail {
+      0% { opacity: 0.7; transform: scale(1); }
+      100% { opacity: 0; transform: scale(0.3); }
+    }
+
+    @keyframes flyLeftToRight1 {
+      0% { transform: translateX(-20vw) translateY(0px); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translateX(120vw) translateY(40px); opacity: 0; }
+    }
+    @keyframes flyLeftToRight2 {
+      0% { transform: translateX(-30vw) translateY(20vh); opacity: 0; }
+      15% { opacity: 1; }
+      85% { opacity: 1; }
+      100% { transform: translateX(130vw) translateY(-30px); opacity: 0; }
+    }
+    @keyframes flyRightToLeft1 {
+      0% { transform: translateX(120vw) translateY(10vh); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translateX(-30vw) translateY(60px); opacity: 0; }
+    }
+    @keyframes flyRightToLeft2 {
+      0% { transform: translateX(140vw) translateY(70vh); opacity: 0; }
+      20% { opacity: 1; }
+      80% { opacity: 1; }
+      100% { transform: translateX(-40vw) translateY(-20px); opacity: 0; }
+    }
+    @keyframes zigzagLeftRight {
+      0% { transform: translateX(-15vw) translateY(30vh); opacity: 0; }
+      25% { transform: translateX(30vw) translateY(10vh); opacity: 1; }
+      50% { transform: translateX(70vw) translateY(50vh); opacity: 1; }
+      75% { transform: translateX(100vw) translateY(25vh); opacity: 1; }
+      100% { transform: translateX(130vw) translateY(70vh); opacity: 0; }
+    }
+    @keyframes zigzagRightLeft {
+      0% { transform: translateX(130vw) translateY(20vh); opacity: 0; }
+      25% { transform: translateX(85vw) translateY(60vh); opacity: 1; }
+      50% { transform: translateX(45vw) translateY(15vh); opacity: 1; }
+      75% { transform: translateX(10vw) translateY(45vh); opacity: 1; }
+      100% { transform: translateX(-30vw) translateY(80vh); opacity: 0; }
+    }
+    @keyframes waveLeftRight {
+      0% { transform: translateX(-20vw) translateY(50vh); opacity: 0; }
+      20% { transform: translateX(20vw) translateY(30vh); opacity: 1; }
+      40% { transform: translateX(55vw) translateY(65vh); opacity: 1; }
+      60% { transform: translateX(80vw) translateY(40vh); opacity: 1; }
+      80% { transform: translateX(110vw) translateY(55vh); opacity: 0.8; }
+      100% { transform: translateX(135vw) translateY(45vh); opacity: 0; }
+    }
+    @keyframes waveRightLeft {
+      0% { transform: translateX(140vw) translateY(15vh); opacity: 0; }
+      20% { transform: translateX(100vw) translateY(45vh); opacity: 1; }
+      40% { transform: translateX(60vw) translateY(20vh); opacity: 1; }
+      60% { transform: translateX(25vw) translateY(60vh); opacity: 1; }
+      80% { transform: translateX(-10vw) translateY(35vh); opacity: 0.8; }
+      100% { transform: translateX(-40vw) translateY(50vh); opacity: 0; }
+    }
+
+    @keyframes fromPinTop {
+      0% { transform: translateX(-50%) translateY(0px) scale(0.5); opacity: 0; }
+      10% { opacity: 1; }
+      100% { transform: translateX(calc(-50% + var(--driftX, 100px))) translateY(-150px) scale(1); opacity: 0; }
+    }
+    @keyframes fromPinBottom {
+      0% { transform: translateX(-50%) translateY(0px) scale(0.5); opacity: 0; }
+      10% { opacity: 1; }
+      100% { transform: translateX(calc(-50% + var(--driftX, -80px))) translateY(150px) scale(1); opacity: 0; }
+    }
+    @keyframes fromPinLeft {
+      0% { transform: translateY(-50%) translateX(0px) scale(0.5); opacity: 0; }
+      10% { opacity: 1; }
+      100% { transform: translateX(-150px) translateY(calc(-50% + var(--driftY, 60px))) scale(1); opacity: 0; }
+    }
+    @keyframes fromPinRight {
+      0% { transform: translateY(-50%) translateX(0px) scale(0.5); opacity: 0; }
+      10% { opacity: 1; }
+      100% { transform: translateX(150px) translateY(calc(-50% + var(--driftY, -40px))) scale(1); opacity: 0; }
+    }
+
+    .neuron-big {
+      width: 12px;
+      height: 12px;
+      filter: blur(0.8px);
+    }
+
     @media (max-width: 1260px) {
       .hero {
         grid-template-columns: 1fr;
@@ -983,13 +1299,6 @@
       .steps-grid,
       .requisites {
         grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
-      .ai-core {
-        position: relative;
-        right: auto;
-        top: auto;
-        margin-left: auto;
       }
     }
 
@@ -1033,15 +1342,6 @@
 
       .processor-scene {
         min-height: 260px;
-      }
-
-      .ai-core {
-        width: 210px;
-        height: 210px;
-      }
-
-      .ai-core span {
-        font-size: 62px;
       }
 
       .footer-top,
@@ -1196,22 +1496,51 @@
         <aside class="hero-right">
           <div class="hero-panel">
             <div class="processor-scene">
-              <svg class="processor-lines" viewBox="0 0 700 320" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <path d="M0 70 C140 70, 220 76, 330 92 S470 120, 560 136" />
-                <path d="M0 120 C120 120, 220 124, 330 132 S470 144, 560 154" />
-                <path d="M0 170 C120 170, 220 170, 330 172 S470 174, 560 176" />
-                <path d="M0 220 C130 220, 220 214, 330 202 S470 188, 560 184" />
-                <path d="M0 270 C140 270, 220 258, 330 236 S470 208, 560 194" />
-              </svg>
-
-              <div class="ai-core">
-                <div class="ring"></div>
-                <div class="ring delay"></div>
-                <span>AI</span>
+              <div class="ai-animation">
+                <div class="motherboard-bg">
+                  <div class="pcb-traces"></div>
+                  <div class="curved-traces">
+                    <svg viewBox="0 0 1400 700" preserveAspectRatio="none">
+                      <path d="M 0,100 Q 200,120 300,200 T 600,250 T 900,180 T 1200,220 L 1400,200" />
+                      <path d="M 0,400 Q 250,380 400,450 T 750,500 T 1100,420 L 1400,480" />
+                      <path d="M 200,0 L 250,150 Q 280,200 350,220 T 500,300" />
+                      <path d="M 1100,700 L 1050,550 Q 1020,500 950,480 T 800,400" />
+                      <path d="M 50,300 Q 150,320 200,380 T 400,450" />
+                      <path d="M 1300,100 Q 1150,130 1100,200 T 900,300" />
+                    </svg>
+                  </div>
+                  <div id="contact-pads" class="contact-pads"></div>
+                </div>
+                <div class="static-noise"></div>
+                <div class="glitch-overlay"></div>
+                <div class="interference"></div>
+                <div id="neurons-field" style="position: absolute; top:0; left:0; width:100%; height:100%; overflow:hidden; pointer-events: none; z-index: 10;"></div>
+                <div class="cpu-container" id="cpuContainer">
+                  <div class="cpu-core">
+                    <div class="die"></div>
+                    <div class="cpu-traces">
+                      <svg viewBox="0 0 220 220" preserveAspectRatio="none">
+                        <path d="M 30,30 L 50,50 M 50,50 L 80,40 M 80,40 L 100,60" />
+                        <path d="M 190,30 L 170,50 M 170,50 L 140,40 M 140,40 L 120,60" />
+                        <path d="M 30,190 L 50,170 M 50,170 L 80,180 M 80,180 L 100,160" />
+                        <path d="M 190,190 L 170,170 M 170,170 L 140,180 M 140,180 L 120,160" />
+                        <circle cx="110" cy="110" r="15" stroke-dasharray="3 3" />
+                        <line x1="60" y1="110" x2="80" y2="110" />
+                        <line x1="140" y1="110" x2="160" y2="110" />
+                        <line x1="110" y1="60" x2="110" y2="80" />
+                        <line x1="110" y1="140" x2="110" y2="160" />
+                      </svg>
+                    </div>
+                    <div class="ai-text-cpu">AI</div>
+                    <div class="cpu-glow"></div>
+                    <div class="cpu-glitch"></div>
+                  </div>
+                  <div class="pins" id="cpuPins"></div>
+                </div>
               </div>
             </div>
 
-            <h2 class="panel-title">Современная аналитика и аудит, доступная всегда по цене меньше чашки кофе.</h2>
+            <h2 class="panel-title">Современная аналитика и аудит по цене меньше чашки кофе — и всегда под рукой.</h2>
             <p class="panel-subtitle">Минимум действий максимум результата, даже бесплатный тариф уже может помочь в устранении ключевых проблем.</p>
 
             <div class="panel-grid">
@@ -1478,5 +1807,218 @@
       </div>
     </footer>
   </div>
+
+<script>
+(function() {
+    var padsContainer = document.getElementById('contact-pads');
+    var padPositions = [
+        [3.2,11.4],[8.6,6.4],[22.9,17.1],[37.1,8.6],[51.4,20],[65.7,7.9],[80,18.6],[94.3,10],
+        [4.3,45.7],[12.9,57.1],[27.1,50],[41.4,68.6],[55.7,45.7],[70,60],[84.3,50],[96.4,41.4],
+        [5.7,78.6],[17.9,85.7],[32.1,74.3],[46.4,88.6],[60.7,80],[75,91.4],[89.3,75.7],[98.6,82.9]
+    ];
+    padPositions.forEach(function(pos) {
+        var pad = document.createElement('div');
+        pad.className = 'pad';
+        pad.style.left = pos[0] + '%';
+        pad.style.top = pos[1] + '%';
+        padsContainer.appendChild(pad);
+    });
+    var slotsData = [
+        {x:7.1,y:25.7,w:5.7,h:1.7},{x:25,y:31.4,w:5.7,h:1.7},{x:42.9,y:24.3,w:5.7,h:1.7},
+        {x:60.7,y:30,w:5.7,h:1.7},{x:78.6,y:25.7,w:5.7,h:1.7},
+        {x:14.3,y:68.6,w:8.6,h:1.4},{x:39.3,y:74.3,w:8.6,h:1.4},
+        {x:64.3,y:67.1,w:8.6,h:1.4},{x:85.7,y:72.9,w:7.1,h:1.4}
+    ];
+    slotsData.forEach(function(s) {
+        var el = document.createElement('div');
+        el.className = 'slot';
+        el.style.left = s.x + '%';
+        el.style.top = s.y + '%';
+        el.style.width = s.w + '%';
+        el.style.height = s.h + '%';
+        padsContainer.appendChild(el);
+    });
+    var chipsData = [
+        {x:17.9,y:40,w:3.2,h:6.4},{x:39.3,y:37.1,w:3.6,h:7.1},{x:60.7,y:41.4,w:2.9,h:5.7},
+        {x:82.1,y:38.6,w:3.4,h:6.9},{x:28.6,y:80,w:3.9,h:7.9},{x:53.6,y:82.9,w:3,h:6},
+        {x:75,y:78.6,w:3.6,h:7.1}
+    ];
+    chipsData.forEach(function(c) {
+        var el = document.createElement('div');
+        el.className = 'chip-on-board';
+        el.style.left = c.x + '%';
+        el.style.top = c.y + '%';
+        el.style.width = c.w + '%';
+        el.style.height = c.h + '%';
+        padsContainer.appendChild(el);
+    });
+
+    var pinsContainer = document.getElementById('cpuPins');
+    function createPins() {
+        for (var i = 0; i < 14; i++) {
+            var pin = document.createElement('div');
+            pin.className = 'pin top';
+            pin.style.left = (7 + i * 6.6) + '%';
+            pinsContainer.appendChild(pin);
+        }
+        for (var i = 0; i < 14; i++) {
+            var pin = document.createElement('div');
+            pin.className = 'pin bottom';
+            pin.style.left = (7 + i * 6.6) + '%';
+            pinsContainer.appendChild(pin);
+        }
+        for (var i = 0; i < 10; i++) {
+            var pin = document.createElement('div');
+            pin.className = 'pin left';
+            pin.style.top = (10 + i * 8.8) + '%';
+            pinsContainer.appendChild(pin);
+        }
+        for (var i = 0; i < 10; i++) {
+            var pin = document.createElement('div');
+            pin.className = 'pin right';
+            pin.style.top = (10 + i * 8.8) + '%';
+            pinsContainer.appendChild(pin);
+        }
+    }
+    createPins();
+
+    var container = document.getElementById('neurons-field');
+    var colorSet = ['#00f2fe','#4efff5','#e0ffff','#00e0ff','#2df2ff','#b5ffff','#0ff','#7ffbff'];
+
+    function createTrail(x, y, color) {
+        var trail = document.createElement('div');
+        trail.className = 'trail';
+        trail.style.left = x + 'px';
+        trail.style.top = y + 'px';
+        trail.style.backgroundColor = color;
+        trail.style.boxShadow = '0 0 8px ' + color;
+        container.appendChild(trail);
+        setTimeout(function() { if (trail.parentNode) trail.parentNode.removeChild(trail); }, 1200);
+    }
+
+    function createNeuronFromPin(pinRect, direction, cpuRect) {
+        var neuron = document.createElement('div');
+        neuron.classList.add('neuron');
+        var size = 4 + Math.random() * 8;
+        neuron.style.width = size + 'px';
+        neuron.style.height = size + 'px';
+        var randomColor = colorSet[Math.floor(Math.random() * colorSet.length)];
+        neuron.style.background = randomColor;
+        neuron.style.boxShadow = '0 0 ' + (6 + Math.random() * 12) + 'px ' + randomColor;
+        var startX = pinRect.left + pinRect.width / 2 - cpuRect.left;
+        var startY = pinRect.top + pinRect.height / 2 - cpuRect.top;
+        neuron.style.left = startX + 'px';
+        neuron.style.top = startY + 'px';
+        neuron.style.position = 'absolute';
+        var driftX = (Math.random() - 0.5) * 120;
+        var driftY = (Math.random() - 0.5) * 120;
+        if (direction === 'top') {
+            neuron.style.animation = 'fromPinTop ' + (1 + Math.random()) + 's ease-out forwards';
+            neuron.style.setProperty('--driftX', driftX + 'px');
+        } else if (direction === 'bottom') {
+            neuron.style.animation = 'fromPinBottom ' + (1 + Math.random()) + 's ease-out forwards';
+            neuron.style.setProperty('--driftX', driftX + 'px');
+        } else if (direction === 'left') {
+            neuron.style.animation = 'fromPinLeft ' + (1 + Math.random()) + 's ease-out forwards';
+            neuron.style.setProperty('--driftY', driftY + 'px');
+        } else if (direction === 'right') {
+            neuron.style.animation = 'fromPinRight ' + (1 + Math.random()) + 's ease-out forwards';
+            neuron.style.setProperty('--driftY', driftY + 'px');
+        }
+        neuron.style.animationTimingFunction = 'cubic-bezier(0.4, 0, 0.2, 1)';
+        var lastX = null, lastY = null, animationActive = true;
+        var updatePosition = function() {
+            if (!animationActive || !neuron.parentNode) return;
+            var rect = neuron.getBoundingClientRect();
+            var containerRect = container.getBoundingClientRect();
+            var currentX = rect.left - containerRect.left;
+            var currentY = rect.top - containerRect.top;
+            if (lastX !== null && lastY !== null) {
+                var dist = Math.hypot(currentX - lastX, currentY - lastY);
+                if (dist > 4) createTrail(currentX, currentY, randomColor);
+            }
+            lastX = currentX; lastY = currentY;
+            requestAnimationFrame(updatePosition);
+        };
+        setTimeout(function() { if (neuron.parentNode) requestAnimationFrame(updatePosition); }, 50);
+        container.appendChild(neuron);
+        setTimeout(function() {
+            if (neuron.parentNode) { animationActive = false; neuron.parentNode.removeChild(neuron); }
+        }, 1500);
+    }
+
+    function startPinNeurons() {
+        var cpuElement = document.querySelector('.cpu-core');
+        var cpuRect = cpuElement.getBoundingClientRect();
+        var pins = document.querySelectorAll('.pin');
+        pins.forEach(function(pin) {
+            if (Math.random() < 0.03) {
+                var pinRect = pin.getBoundingClientRect();
+                var direction = 'top';
+                if (pin.classList.contains('bottom')) direction = 'bottom';
+                else if (pin.classList.contains('left')) direction = 'left';
+                else if (pin.classList.contains('right')) direction = 'right';
+                createNeuronFromPin(pinRect, direction, cpuRect);
+            }
+        });
+    }
+    setInterval(function() { startPinNeurons(); }, 400);
+
+    var trajectories = [
+        'flyLeftToRight1','flyLeftToRight2','flyRightToLeft1','flyRightToLeft2',
+        'zigzagLeftRight','zigzagRightLeft','waveLeftRight','waveRightLeft'
+    ];
+    function createBackgroundNeuron() {
+        var neuron = document.createElement('div');
+        neuron.classList.add('neuron');
+        var size = 4 + Math.random() * 8;
+        neuron.style.width = size + 'px';
+        neuron.style.height = size + 'px';
+        var randomColor = colorSet[Math.floor(Math.random() * colorSet.length)];
+        neuron.style.background = randomColor;
+        neuron.style.boxShadow = '0 0 ' + (6 + Math.random() * 12) + 'px ' + randomColor + ', 0 0 20px ' + randomColor;
+        var traj = trajectories[Math.floor(Math.random() * trajectories.length)];
+        neuron.style.animationName = traj;
+        neuron.style.animationDuration = (5 + Math.random() * 9) + 's';
+        neuron.style.animationDelay = (Math.random() * 15) + 's';
+        neuron.style.animationTimingFunction = 'cubic-bezier(0.45, 0.05, 0.2, 0.99)';
+        neuron.style.animationIterationCount = 'infinite';
+        neuron.style.top = (Math.random() * 100) + '%';
+        if (Math.random() > 0.85) neuron.classList.add('neuron-big');
+        var lastX = null, lastY = null;
+        var updatePosition = function() {
+            if (!neuron.parentNode) return;
+            var rect = neuron.getBoundingClientRect();
+            var containerRect = container.getBoundingClientRect();
+            var currentX = rect.left - containerRect.left;
+            var currentY = rect.top - containerRect.top;
+            if (lastX !== null && lastY !== null) {
+                var dist = Math.hypot(currentX - lastX, currentY - lastY);
+                if (dist > 5) createTrail(currentX, currentY, randomColor);
+            }
+            lastX = currentX; lastY = currentY;
+            requestAnimationFrame(updatePosition);
+        };
+        setTimeout(function() { if (neuron.parentNode) requestAnimationFrame(updatePosition); }, 100);
+        container.appendChild(neuron);
+    }
+
+    var MAX_NEURONS = 65;
+    function addBackgroundNeuron() {
+        var currentNeurons = Array.from(container.children).filter(function(el) { return el.classList && el.classList.contains('neuron'); }).length;
+        if (currentNeurons < MAX_NEURONS) createBackgroundNeuron();
+    }
+    for (var i = 0; i < 35; i++) addBackgroundNeuron();
+    setInterval(function() { addBackgroundNeuron(); }, 2000);
+    setInterval(function() {
+        var neurons = Array.from(container.children).filter(function(el) { return el.classList && el.classList.contains('neuron'); });
+        if (neurons.length > MAX_NEURONS + 10) {
+            for (var j = 0; j < 15; j++) {
+                if (neurons[j] && neurons[j].parentNode) neurons[j].parentNode.removeChild(neurons[j]);
+            }
+        }
+    }, 15000);
+})();
+</script>
 </body>
 </html>
