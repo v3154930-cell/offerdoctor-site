@@ -389,7 +389,7 @@
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 16px;
       margin-top: 28px;
-      align-items: start;
+      align-items: stretch;
     }
 
     .scenario-card {
@@ -406,6 +406,8 @@
       flex-direction: column;
       align-items: center;
       text-align: center;
+      justify-content: flex-start;
+      height: 100%;
     }
 
     .scenario-card:hover {
@@ -442,10 +444,12 @@
       line-height: 1.1;
       font-weight: 800;
       color: #112640;
+      min-height: 58px;
     }
 
     .scenario-card p {
       margin: 0;
+      margin-top: auto;
       font-size: 15px;
       line-height: 1.65;
       color: var(--muted);
@@ -1437,7 +1441,7 @@
             </svg>
 
             <h1>ОфферДоктор</h1>
-            <p class="hero-lead">Умный аудит вашего бизнеса</p>
+            <p class="hero-lead">Показываем, где ваше предложение теряет продажи</p>
 
             <div class="hero-actions">
               <a
@@ -1462,7 +1466,7 @@
                 </svg>
               </div>
               <h3>Карточка товара</h3>
-              <p>Ozon, WB, Яндекс</p>
+              <p>Ozon, Wildberries, Яндекс Маркет</p>
             </article>
 
             <article class="scenario-card">
@@ -1475,7 +1479,7 @@
                 </svg>
               </div>
               <h3>Avito</h3>
-              <p>Объявление Avito</p>
+              <p>Разбор объявления</p>
             </article>
 
             <article class="scenario-card">
@@ -1488,7 +1492,7 @@
                 </svg>
               </div>
               <h3>Лендинг</h3>
-              <p>Аудит лендинга</p>
+              <p>Разбор страницы</p>
             </article>
           </div>
         </div>
@@ -1540,8 +1544,8 @@
               </div>
             </div>
 
-            <h2 class="panel-title">Современная аналитика и аудит по цене меньше чашки кофе — и всегда под рукой.</h2>
-            <p class="panel-subtitle">Минимум действий максимум результата, даже бесплатный тариф уже может помочь в устранении ключевых проблем.</p>
+            <h2 class="panel-title">Современная аналитика по цене чашки кофе</h2>
+            <p class="panel-subtitle">Минимум действий, максимум результата. Даже бесплатный аудит уже показывает, что мешает продавать лучше.</p>
 
             <div class="panel-grid">
               <article class="panel-card">
@@ -1552,7 +1556,7 @@
                   </svg>
                 </div>
                 <h4>Быстрый старт</h4>
-                <p>Сервис сразу показывает, где именно вы теряете внимание и продажи.</p>
+                <p>Сервис сразу показывает, где предложение теряет внимание и продажи.</p>
               </article>
 
               <article class="panel-card">
@@ -1562,7 +1566,7 @@
                   </svg>
                 </div>
                 <h4>Понятный результат</h4>
-                <p>Без перегруза и воды: только ключевые слабые места и приоритетные правки.</p>
+                <p>Без воды и перегруза: только слабые места и приоритетные правки.</p>
               </article>
 
               <article class="panel-card">
@@ -1575,7 +1579,7 @@
                   </svg>
                 </div>
                 <h4>Глубина на выбор</h4>
-                <p>Можно остановиться на базе или перейти к более сильному аудиту.</p>
+                <p>Можно остановиться на базовом разборе или перейти к более глубокому аудиту.</p>
               </article>
 
               <article class="panel-card">
@@ -1586,7 +1590,7 @@
                   </svg>
                 </div>
                 <h4>Рост от правок</h4>
-                <p>Сервис помогает увидеть, что стоит исправить в первую очередь, а не всё сразу.</p>
+                <p>Сервис помогает понять, что лучше исправить в первую очередь, чтобы быстрее увидеть эффект.</p>
               </article>
             </div>
           </div>
@@ -1595,10 +1599,10 @@
 
       <section class="section-card">
         <p class="section-eyebrow">Почему это удобно</p>
-        <h2 class="section-title">Простой старт</h2>
+        <h2 class="section-title">Вам легко начать</h2>
         <p class="section-description">
           Не нужно заранее разбираться в метриках, воронках и сложной аналитике.
-          Достаточно вставить ссылку или текст — и сервис покажет, где предложение уже сейчас теряет деньги.
+          Достаточно вставить ссылку или текст, и сервис покажет, где предложение уже сейчас теряет продажи.
         </p>
 
         <div class="value-grid">
@@ -1639,7 +1643,7 @@
       <section class="section-card" id="prices">
         <p class="section-eyebrow">Тарифы</p>
         <h2 class="section-title">Понятная цена по каждому формату</h2>
-        <p class="section-description">Выбирайте сами степень аналитики от базы до полного аудита</p>
+        <p class="section-description">Выбирайте глубину разбора: от базы до полного аудита</p>
 
         <div class="pricing-grid">
           <article class="pricing-card">
@@ -1721,7 +1725,7 @@
         <p class="section-eyebrow">Как это работает</p>
         <h2 class="section-title">Четыре простых шага без перегруза</h2>
         <p class="section-description">
-          Человеку не нужно самому искать конкурентов, собирать отчеты и разбираться в куче параметров.
+          Вам не нужно самостоятельно искать конкурентов, собирать отчеты и разбираться в десятках параметров.
           Всё строится вокруг короткого и понятного сценария.
         </p>
 
